@@ -888,7 +888,7 @@ dialog[open]{animation:dlg .45s var(--k)}
 /* Hürden-Bühne: Abschnitt bleibt stehen, Karten 1 bis 4 wechseln beim Scrollen, danach geht es weiter */
 .h-zahl{display:none}
 #huerden.buehne-an{display:block!important;position:relative}
-#huerden.buehne-an .h-buehne{position:sticky;top:var(--bt,110px);display:flex;flex-direction:column;justify-content:center}
+#huerden.buehne-an .h-buehne{position:sticky;top:var(--bt,110px);display:flex;flex-direction:column;justify-content:flex-start;height:auto!important;min-height:0!important}
 #huerden.buehne-an .h-karten{display:grid}
 #huerden.buehne-an .h-karten .huerde{grid-area:1/1;position:relative!important;top:auto!important;margin:0!important;opacity:0!important;transform:translateY(40px) scale(.98)!important;transition:border-color .5s,box-shadow .5s!important;pointer-events:none;box-shadow:none;will-change:opacity,transform}
 #huerden.buehne-an .h-karten .huerde.vorbei{transform:translateY(-40px) scale(.98)!important}
@@ -907,6 +907,10 @@ dialog[open]{animation:dlg .45s var(--k)}
 .h-schritte span{flex:1;height:3px;border-radius:3px;background:var(--line);overflow:hidden}
 .h-schritte i{display:block;height:100%;background:var(--green);transform-origin:left;transform:scaleX(0)}
 .h-zahl .h-schritte{flex:1;align-self:center;margin-left:12px}
+/* Weniger Abstand nach den Hürden, Pflanze mittig dazwischen */
+#warum.sec{padding-bottom:40px}
+#bereiche.sec{padding-top:40px}
+.trenner.t-bereiche{margin:0 auto!important}
 </style>
 </head>
 <body class="intro-an">
@@ -1477,20 +1481,20 @@ const kw=document.createElement('div');kw.className='h-karten';karten.forEach(k=
 bu.appendChild(zahl);bu.appendChild(kw);box.appendChild(bu);box.classList.add('buehne-an');
 if(wfort){wfort.classList.add('h-schritte');wfort.innerHTML=seg()}
 const fuell=[...document.querySelectorAll('.h-schritte i')],zb=zahl.querySelector('b');
-let bh=0,oben=0,ziel=0,ist=0,laeuft=false,lastA=-1;
+let bh=0,oben=0,W=1,hs=[],ziel=0,ist=0,laeuft=false,lastA=-1;const ENDE=n-0.5;
 const cl=(v,a=0,b=1)=>Math.max(a,Math.min(b,v)),weich=v=>v*v*(3-2*v);
-function mess(){const vh=innerHeight,kh=kopf?kopf.offsetHeight:70;bh=bu.offsetHeight;
+function mess(){const vh=innerHeight,kh=kopf?kopf.offsetHeight:70;kw.style.height='';hs=karten.map(k=>k.offsetHeight);bh=bu.offsetHeight;const zh=bh-kw.offsetHeight;
   oben=Math.max(kh+16,Math.round((vh-bh)/2+kh/2));box.style.setProperty('--bt',oben+'px');
-  box.style.height=Math.round(bh+(n-1)*vh*.7)+'px';ziel=wert();ist=ziel;zeichne()}
-function wert(){const r=box.getBoundingClientRect(),weg=Math.max(1,box.offsetHeight-bh);return cl((oben-r.top)/weg)*n}
-function zeichne(){const f=Math.min(ist,n-0.0001);
+  W=Math.round(n*vh*.55);box.style.height=Math.round(W+zh+hs[n-1])+'px';ziel=wert();ist=ziel;zeichne()}
+function wert(){const r=box.getBoundingClientRect();return cl((oben-r.top)/W)*ENDE}
+function zeichne(){const f=Math.min(ist,n-0.0001);{const i=Math.min(n-2,Math.floor(f)),u=weich(cl((f-i-0.6)/0.24));kw.style.height=Math.round(hs[i]+(hs[i+1]-hs[i])*u)+'px'}
   karten.forEach((k,i)=>{const t=f-i;let o=1,y=0,sc=1;
     if(t<0){const e=weich(cl(1+t/0.22));o=e;y=(1-e)*36;sc=.98+.02*e}
     else if(t>0.6&&i<n-1){const e=weich(cl((t-0.6)/0.24));o=1-e;y=-e*36;sc=1-.02*e}
     if(i===0&&t<0){o=1;y=0;sc=1}
     k.style.setProperty('opacity',o.toFixed(3),'important');k.style.setProperty('transform','translateY('+y.toFixed(1)+'px) scale('+sc.toFixed(4)+')','important');
     k.style.setProperty('z-index',o>.5?2:1);k.style.pointerEvents=o>.5?'auto':'none'});
-  fuell.forEach((x,j)=>{const i=j%n;x.style.transform='scaleX('+cl(f-i).toFixed(3)+')'});
+  fuell.forEach((x,j)=>{const i=j%n;x.style.transform='scaleX('+cl((f-i)/(i===n-1?ENDE-(n-1):1)).toFixed(3)+')'});
   const a=Math.min(n-1,Math.floor(f+0.35));if(a!==lastA){lastA=a;karten.forEach((k,i)=>k.classList.toggle('aktiv',i===a));const nr=String(a+1).padStart(2,'0');zb.textContent=nr;if(wnr)wnr.textContent=nr}}
 function schritt(){ist+=(ziel-ist)*0.14;if(Math.abs(ziel-ist)<0.001)ist=ziel;zeichne();if(ist!==ziel)requestAnimationFrame(schritt);else laeuft=false}
 addEventListener('scroll',()=>{ziel=wert();if(!laeuft){laeuft=true;requestAnimationFrame(schritt)}},{passive:true});
