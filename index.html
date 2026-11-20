@@ -602,6 +602,14 @@ footer .gross-wort{width:min(560px,72vw);bottom:-3vw;color:rgba(255,255,255,.045
   .h-punkte i{width:6px;height:6px;border-radius:50%;background:var(--line2);transition:background .4s,width .4s}
   .h-punkte i.an{background:var(--green);width:18px;border-radius:3px}
 }
+/* Hürden am Handy: wie vorher durchlaufen, Punkte unten statt Leiste oben */
+@media(max-width:1020px){
+  #huerden .h-faden{display:flex!important;position:sticky;top:auto;bottom:18px;z-index:5;justify-self:center;gap:8px;align-items:center;width:max-content;padding:10px 14px;margin:4px 0 0;background:rgba(246,243,236,.92);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border-radius:99px;box-shadow:0 10px 26px -16px rgba(31,59,48,.45)}
+  #huerden .h-faden i{display:block;width:7px;height:7px;border-radius:4px;background:var(--line2);transition:background .4s,width .45s var(--k)}
+  #huerden .h-faden i.an{background:var(--green);width:22px}
+}
+/* Ranke vor Preise nur auf dem hellen Grund */
+.trenner.t-preise{margin:22px auto -66px}
 /* Kontakt-Kasten eleganter: ruhiges Tiefgrün, feine Lichtkante, zarte Zahlen */
 body .k-info{background:radial-gradient(120% 90% at 100% 0%,rgba(141,191,143,.20),transparent 55%),linear-gradient(160deg,#24493B 0%,#1F3B30 70%);border-radius:24px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.07),0 30px 60px -40px rgba(31,59,48,.55)}
 body .k-info .deko{opacity:.06}
@@ -1401,20 +1409,20 @@ addEventListener('scroll',()=>{if(!t){t=true;requestAnimationFrame(male)}},{pass
 /* Ranken zwischen den Themen einsetzen und ans Scrollen koppeln */
 (()=>{const ids=['bereiche','ablauf','preise'];
 const svg='<svg viewBox="0 0 64 110" aria-hidden="true"><path class="t-stiel" pathLength="1" d="M32 4 C 20 26 44 44 32 64 S 30 92 32 104"/><path class="t-bl l t1" d="M31 40 c-4 -9 -13 -13 -21 -12 c3 9 12 14 21 12z" fill="#8DBF8F"/><path class="t-bl r t2" d="M33 70 c4 -9 13 -13 21 -12 c-3 9 -12 14 -21 12z" fill="#8DBF8F"/><g class="t-bl t3"><path d="M31 106 C24 104 21 97 22 88 c7 3 10 10 9 18z" fill="#2F6B4F"/><path d="M33 106 c1-7 4-11 10-13 0 7-4 11-10 13z" fill="#8DBF8F"/></g></svg>';
-const tr=[];ids.forEach(id=>{const sec=document.getElementById(id);if(!sec)return;const d=document.createElement('div');d.className='trenner';d.setAttribute('aria-hidden','true');d.innerHTML=svg;sec.parentNode.insertBefore(d,sec);tr.push(d)});
+const tr=[];ids.forEach(id=>{const sec=document.getElementById(id);if(!sec)return;const d=document.createElement('div');d.className='trenner t-'+id;d.setAttribute('aria-hidden','true');d.innerHTML=svg;sec.parentNode.insertBefore(d,sec);tr.push(d)});
 const cl=v=>Math.max(0,Math.min(1,v));let t=false;
 const male=()=>{t=false;const vh=innerHeight;tr.forEach(d=>{const r=d.getBoundingClientRect();const p=cl((vh*.92-r.top)/(vh*.45));d.style.setProperty('--tp',p.toFixed(3));d.querySelector('.t-stiel').style.strokeDashoffset=(1-p).toFixed(3);d.classList.toggle('b1',p>.4);d.classList.toggle('b2',p>.68);d.classList.toggle('b3',p>.96)})};
 addEventListener('scroll',()=>{if(!t){t=true;requestAnimationFrame(male)}},{passive:true});addEventListener('resize',male);male();})();
 
-/* Hürden-Faden am Handy */
-(()=>{return;const box=document.getElementById('huerden');if(!box)return;const karten=[...box.querySelectorAll('.huerde')];if(!karten.length)return;
+/* Hürden am Handy: Karten laufen durch, unten 4 Punkte */
+(()=>{const box=document.getElementById('huerden');if(!box)return;const karten=[...box.querySelectorAll('.huerde')];if(!karten.length)return;
 const blatt='<svg viewBox="0 0 64 64" aria-hidden="true"><path class="a" d="M31 58C14 52 6 34 10 8c17 8 25 26 21 50z" fill="#2F6B4F"/><path class="b" d="M33 58c2-17 9-27 23-31-1 16-9 27-23 31z" fill="#8DBF8F"/></svg>';
 const fd=document.createElement('div');fd.className='h-faden';fd.setAttribute('aria-hidden','true');
-fd.innerHTML='<div class="hf-bar"><i></i></div><span class="hf-zahl"><b>01</b> / 0'+karten.length+'</span>';
-box.insertBefore(fd,box.firstChild);const fbar=fd.querySelector('.hf-bar i'),fz=fd.querySelector('.hf-zahl b');let t=false;
+fd.innerHTML=karten.map(()=>'<i></i>').join('');
+box.appendChild(fd);const pts=[...fd.children];let t=false;
 const male=()=>{t=false;if(innerWidth>1020)return;const vh=innerHeight;let a=0;karten.forEach((k,i)=>{if(k.getBoundingClientRect().top<vh*.5)a=i});
 const r=box.getBoundingClientRect();const pr=Math.max(0,Math.min(1,(vh*.5-r.top)/r.height));
-fbar.style.transform='scaleX('+pr.toFixed(3)+')';fz.textContent=String(a+1).padStart(2,'0');karten.forEach((k,i)=>k.classList.toggle('aktiv',i===a))};
+pts.forEach((x,i)=>x.classList.toggle('an',i===a));karten.forEach((k,i)=>k.classList.toggle('aktiv',i===a))};
 addEventListener('scroll',()=>{if(!t){t=true;requestAnimationFrame(male)}},{passive:true});addEventListener('resize',male);male();})();
 
 /* Kleine Pflanze am Rand, die mit jedem Thema wächst */
@@ -1428,7 +1436,7 @@ const mitte=[...document.querySelectorAll('.trenner')].some(d=>{const r=d.getBou
 addEventListener('scroll',()=>{if(!t){t=true;requestAnimationFrame(male)}},{passive:true});addEventListener('resize',male);male();})();
 
 /* Handy: Hürden-Bühne */
-(()=>{if(innerWidth>1020)return;const box=document.getElementById('huerden');if(!box)return;const karten=[...box.querySelectorAll('.huerde')];if(!karten.length)return;
+(()=>{return;if(innerWidth>1020)return;const box=document.getElementById('huerden');if(!box)return;const karten=[...box.querySelectorAll('.huerde')];if(!karten.length)return;
 const b=document.createElement('div');b.className='h-buehne';karten.forEach(k=>{k.classList.add('in');b.appendChild(k)});
 const pk=document.createElement('div');pk.className='h-punkte';pk.setAttribute('aria-hidden','true');pk.innerHTML=karten.map(()=>'<i></i>').join('');b.appendChild(pk);
 box.appendChild(b);box.classList.add('buehne-an');box.style.setProperty('--hk',karten.length);const pt=[...pk.children];let t=false,last=-1;
