@@ -555,7 +555,7 @@ footer{margin-top:80px;padding:44px 0 22px}
 footer .gross-wort{width:min(560px,72vw);bottom:-3vw;color:rgba(255,255,255,.045)}
 @media(max-width:600px){footer{margin-top:60px;padding:36px 0 20px}footer .gross-wort{width:78vw;bottom:-2vw}}
 /* Seitenranke entfernt: ruhiger. Die Ranken zwischen den Themen tragen das Motiv */
-.ranke{display:none!important}
+@media(max-width:1340px){.ranke{display:none!important}}
 @media(max-width:700px){.wrap{width:min(1180px,100% - 40px);margin-left:auto;margin-right:auto}}
 .trenner{width:80px;height:130px;margin:-65px auto}
 .trenner .t-stiel{stroke-width:2.4;stroke:#8DBF8F}
@@ -589,6 +589,19 @@ footer .gross-wort{width:min(560px,72vw);bottom:-3vw;color:rgba(255,255,255,.045
 .mp-stiel{stroke-width:2.6}
 @media(max-width:600px){.mini-pflanze{left:4px;bottom:14px;width:26px;height:66px;opacity:.9}}
 @media(max-width:640px){.pilot-band .pb-txt{flex:none}.pilot-band{gap:8px}}
+/* Handy: „Warum Kinvia“ bleibt stehen, die Hürden 1 bis 4 wechseln sich beim Scrollen ab */
+.mini-pflanze{display:none!important}
+@media(max-width:1020px){
+  .h-faden{display:none!important}
+  #huerden.buehne-an{display:block!important;position:relative;height:calc(var(--hk,4) * 70vh + 30vh)}
+  .h-buehne{position:sticky;top:84px;height:calc(100vh - 104px);height:calc(100svh - 104px);display:grid;align-items:center}
+  #huerden .h-buehne .huerde{grid-area:1/1;position:relative!important;opacity:0!important;transform:translateY(46px) scale(.98)!important;transition:opacity .55s ease,transform .7s var(--k)!important;pointer-events:none;box-shadow:0 30px 60px -36px rgba(31,59,48,.35)}
+  #huerden .h-buehne .huerde.vorbei{transform:translateY(-46px) scale(.98)!important}
+  #huerden .h-buehne .huerde.aktiv{opacity:1!important;transform:none!important;pointer-events:auto;border-color:var(--leaf)}
+  .h-punkte{position:absolute;left:0;right:0;bottom:6px;display:flex;justify-content:center;gap:8px}
+  .h-punkte i{width:6px;height:6px;border-radius:50%;background:var(--line2);transition:background .4s,width .4s}
+  .h-punkte i.an{background:var(--green);width:18px;border-radius:3px}
+}
 /* Paragraphen Datenschutz */
 .paragraphen{margin-top:18px;font-size:13.5px;line-height:1.7;color:#A9BDB2;max-width:62ch}
 .paragraphen b{color:#fff;font-weight:600}
@@ -1388,7 +1401,7 @@ const male=()=>{t=false;const vh=innerHeight;tr.forEach(d=>{const r=d.getBoundin
 addEventListener('scroll',()=>{if(!t){t=true;requestAnimationFrame(male)}},{passive:true});addEventListener('resize',male);male();})();
 
 /* Hürden-Faden am Handy */
-(()=>{const box=document.getElementById('huerden');if(!box)return;const karten=[...box.querySelectorAll('.huerde')];if(!karten.length)return;
+(()=>{return;const box=document.getElementById('huerden');if(!box)return;const karten=[...box.querySelectorAll('.huerde')];if(!karten.length)return;
 const blatt='<svg viewBox="0 0 64 64" aria-hidden="true"><path class="a" d="M31 58C14 52 6 34 10 8c17 8 25 26 21 50z" fill="#2F6B4F"/><path class="b" d="M33 58c2-17 9-27 23-31-1 16-9 27-23 31z" fill="#8DBF8F"/></svg>';
 const fd=document.createElement('div');fd.className='h-faden';fd.setAttribute('aria-hidden','true');
 fd.innerHTML='<div class="hf-bar"><i></i></div><span class="hf-zahl"><b>01</b> / 0'+karten.length+'</span>';
@@ -1399,13 +1412,22 @@ fbar.style.transform='scaleX('+pr.toFixed(3)+')';fz.textContent=String(a+1).padS
 addEventListener('scroll',()=>{if(!t){t=true;requestAnimationFrame(male)}},{passive:true});addEventListener('resize',male);male();})();
 
 /* Kleine Pflanze am Rand, die mit jedem Thema wächst */
-(()=>{const ids=['warum','bereiche','angebot','ablauf','datenschutz','preise','faq','kontakt'].map(i=>document.getElementById(i)).filter(Boolean);if(!ids.length)return;
+(()=>{return;const ids=['warum','bereiche','angebot','ablauf','datenschutz','preise','faq','kontakt'].map(i=>document.getElementById(i)).filter(Boolean);if(!ids.length)return;
 const n=ids.length;let bl='';for(let i=0;i<n;i++){const y=104-i*11.5,l=i%2===0;bl+=l?'<path class="mp-bl l" d="M23 '+y+' c-3 -7 -10 -10 -16 -9 c2 7 9 11 16 9z" fill="'+(i%3?'#8DBF8F':'#2F6B4F')+'"/>':'<path class="mp-bl r" d="M23 '+y+' c3 -7 10 -10 16 -9 c-2 7 -9 11 -16 9z" fill="'+(i%3?'#8DBF8F':'#2F6B4F')+'"/>'}
 const w=document.createElement('div');w.className='mini-pflanze';w.setAttribute('aria-hidden','true');
 w.innerHTML='<svg viewBox="0 0 46 112"><ellipse class="mp-erde" cx="23" cy="110" rx="14" ry="3"/><path class="mp-stiel" pathLength="1" d="M23 110 C 21 90 25 70 23 50 S 21 20 23 6"/>'+bl+'</svg>';document.body.appendChild(w);
 const st=w.querySelector('.mp-stiel'),bls=[...w.querySelectorAll('.mp-bl')];let t=false,last=-1;
 const male=()=>{t=false;const vh=innerHeight;let k=0;ids.forEach(sec=>{if(sec.getBoundingClientRect().top<vh*.55)k++});
 const mitte=[...document.querySelectorAll('.trenner')].some(d=>{const r=d.getBoundingClientRect();return r.bottom>-40&&r.top<vh+40});w.classList.toggle('da',k>0&&!mitte);if(k===last)return;last=k;st.style.strokeDashoffset=(1-Math.min(1,(k+0.4)/(n+0.4))).toFixed(3);bls.forEach((b,i)=>b.classList.toggle('an',i<k))};
+addEventListener('scroll',()=>{if(!t){t=true;requestAnimationFrame(male)}},{passive:true});addEventListener('resize',male);male();})();
+
+/* Handy: Hürden-Bühne */
+(()=>{if(innerWidth>1020)return;const box=document.getElementById('huerden');if(!box)return;const karten=[...box.querySelectorAll('.huerde')];if(!karten.length)return;
+const b=document.createElement('div');b.className='h-buehne';karten.forEach(k=>{k.classList.add('in');b.appendChild(k)});
+const pk=document.createElement('div');pk.className='h-punkte';pk.setAttribute('aria-hidden','true');pk.innerHTML=karten.map(()=>'<i></i>').join('');b.appendChild(pk);
+box.appendChild(b);box.classList.add('buehne-an');box.style.setProperty('--hk',karten.length);const pt=[...pk.children];let t=false,last=-1;
+const male=()=>{t=false;const r=box.getBoundingClientRect(),weg=Math.max(1,r.height-b.offsetHeight);const p=Math.max(0,Math.min(.999,(84-r.top)/weg));const a=Math.floor(p*karten.length);
+if(a===last)return;last=a;karten.forEach((k,i)=>{k.classList.toggle('aktiv',i===a);k.classList.toggle('vorbei',i<a)});pt.forEach((x,i)=>x.classList.toggle('an',i===a))};
 addEventListener('scroll',()=>{if(!t){t=true;requestAnimationFrame(male)}},{passive:true});addEventListener('resize',male);male();})();
 </script>
 </body>
