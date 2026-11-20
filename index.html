@@ -602,6 +602,12 @@ footer .gross-wort{width:min(560px,72vw);bottom:-3vw;color:rgba(255,255,255,.045
   .h-punkte i{width:6px;height:6px;border-radius:50%;background:var(--line2);transition:background .4s,width .4s}
   .h-punkte i.an{background:var(--green);width:18px;border-radius:3px}
 }
+/* Kontakt-Kasten eleganter: ruhiges Tiefgrün, feine Lichtkante, zarte Zahlen */
+body .k-info{background:radial-gradient(120% 90% at 100% 0%,rgba(141,191,143,.20),transparent 55%),linear-gradient(160deg,#24493B 0%,#1F3B30 70%);border-radius:24px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.07),0 30px 60px -40px rgba(31,59,48,.55)}
+body .k-info .deko{opacity:.06}
+.k-info .eyebrow{color:var(--leaf)!important}
+body .vorteile li i{width:30px;height:30px;border-radius:50%;background:transparent;box-shadow:inset 0 0 0 1px rgba(141,191,143,.45);font:italic 500 15px var(--serif);color:#D3E6CB}
+body .vorteile li b{font-weight:500;letter-spacing:.005em}
 /* Paragraphen Datenschutz */
 .paragraphen{margin-top:18px;font-size:13.5px;line-height:1.7;color:#A9BDB2;max-width:62ch}
 .paragraphen b{color:#fff;font-weight:600}
@@ -1040,25 +1046,25 @@ dialog[open]{animation:dlg .45s var(--k)}
 <!-- PREISE -->
 <section class="sec" id="preise"><div class="wrap">
   <div class="head c r"><span class="eyebrow">Preise</span><h2>Feste Preise. <em class="hand">Planbar.</em></h2><p class="sub">Alle Preise netto pro Einrichtung und Monat. Persönlicher Ansprechpartner immer inklusive.</p></div>
-  <div class="pilot-band r"><span class="pb-tag">Ohne Risiko</span><b>7 Tage kostenlos testen</b><span class="pb-txt">Keine Kosten, keine Zahlungsdaten. Endet automatisch, Sie müssen nichts kündigen.</span><a class="btn sm" href="#kontakt">Jetzt starten</a></div>
+  <div class="pilot-band r"><span class="pb-tag">Ohne Risiko</span><b>7 Tage kostenlos testen</b><span class="pb-txt">Paket Start mit Ihren eigenen Vorlagen. Keine Kosten, keine Zahlungsdaten, endet automatisch.</span><a class="btn sm" href="#kontakt">Jetzt starten</a></div>
   <div class="plans">
     <div class="spot plan r">
       <h3>Start</h3><p class="for">Bis 15 Mitarbeitende</p>
-      <div class="price"><b>79 €</b><span>/ Monat</span></div><p class="pilotpreis"><b>7 Tage kostenlos</b> testen</p><hr>
+      <div class="price"><b>79 €</b><span>/ Monat</span></div><p class="pilotpreis"><b>7 Tage kostenlos</b> testen, mit Ihren Vorlagen</p><hr>
       <ul>
         <li><svg><use href="#ok"/></svg>Wissen der Einrichtung: Fragen zu Konzeption &amp; Abläufen</li>
         <li><svg><use href="#ok"/></svg>Berichte aus Sprache, Notizen oder Fotos</li>
         <li><svg><use href="#ok"/></svg>Elternbriefe in einfacher Sprache &amp; 10+ Sprachen</li>
         <li><svg><use href="#ok"/></svg>Fotos mit automatisch verpixelten Gesichtern</li>
         <li class="x"><svg><use href="#no"/></svg>Konzeption &amp; Schutzkonzept</li>
-        <li class="x"><svg><use href="#no"/></svg>Eigene Vorlagen</li>
+        <li><svg><use href="#ok"/></svg>Eigene Vorlagen einbinden</li>
       </ul>
       <a class="btn line" href="#kontakt" data-paket="Start">Start wählen</a>
     </div>
     <div class="spot plan pop r d1">
       <span class="tag">Empfohlen</span>
       <h3>Plus</h3><p class="for">Bis 40 Mitarbeitende</p>
-      <div class="price"><b>149 €</b><span>/ Monat</span></div><p class="pilotpreis"><b>7 Tage kostenlos</b> testen</p><hr>
+      <div class="price"><b>149 €</b><span>/ Monat</span></div><p class="pilotpreis">Jederzeit von Start aus wechseln</p><hr>
       <ul>
         <li><svg><use href="#ok"/></svg>Alles aus Start</li>
         <li><svg><use href="#ok"/></svg>Live-Dolmetschen in Elterngesprächen</li>
@@ -1098,7 +1104,7 @@ dialog[open]{animation:dlg .45s var(--k)}
     <div class="faq-item auf"><button class="faq-q" aria-expanded="true">Muss unser Team etwas installieren?<span class="pl"></span></button><div class="faq-a"><div><p>Nein. Ein sicherer Link im Browser genügt, auf Handy, Tablet oder PC. Wir richten alles für Sie ein.</p></div></div></div>
     <div class="faq-item"><button class="faq-q" aria-expanded="false">Bewertet Kinvia die Kinder?<span class="pl"></span></button><div class="faq-a"><div><p>Nein. Kinvia formuliert, übersetzt und strukturiert, was Ihre Fachkräfte beobachten. Jede Einschätzung und jede Entscheidung trifft immer Ihr Team.</p></div></div></div>
     <div class="faq-item"><button class="faq-q" aria-expanded="false">Ist das mit Träger und Datenschutz vereinbar?<span class="pl"></span></button><div class="faq-a"><div><p>Ja. Verarbeitet wird ausschließlich in Deutschland, verschlüsselt und ohne Weitergabe an US-amerikanische KI-Anbieter. Sie erhalten einen Auftragsverarbeitungsvertrag nach DSGVO und alle Informationen für Ihren Datenschutzbeauftragten.</p></div></div></div>
-    <div class="faq-item"><button class="faq-q" aria-expanded="false">Wie funktioniert der kostenlose Test?<span class="pl"></span></button><div class="faq-a"><div><p>Sie füllen unten das Formular aus und erhalten Ihren Zugang innerhalb von 24 Stunden per E-Mail. Dann testen Sie Kinvia 7 Tage kostenlos mit vollem Funktionsumfang. Es entstehen keine Kosten, Zahlungsdaten brauchen wir nicht. Die Einrichtung schaffen Sie selbst in wenigen Minuten. Der Test endet automatisch, Sie müssen nichts kündigen.</p></div></div></div>
+    <div class="faq-item"><button class="faq-q" aria-expanded="false">Wie funktioniert der kostenlose Test?<span class="pl"></span></button><div class="faq-a"><div><p>Sie füllen unten das Formular aus und erhalten Ihren Zugang innerhalb von 24 Stunden per E-Mail. Dann testen Sie das Paket Start 7 Tage kostenlos, inklusive Ihrer eigenen Vorlagen. Es entstehen keine Kosten, Zahlungsdaten brauchen wir nicht. Die Einrichtung schaffen Sie selbst in wenigen Minuten. Der Test endet automatisch, Sie müssen nichts kündigen.</p></div></div></div>
     <div class="faq-item"><button class="faq-q" aria-expanded="false">Wie schnell können wir starten?<span class="pl"></span></button><div class="faq-a"><div><p>Sofort. Sie richten Kinvia in wenigen Minuten selbst ein. Auf Wunsch übernehmen wir das persönlich für Sie.</p></div></div></div>
   </div>
 </div></section>
@@ -1113,7 +1119,7 @@ dialog[open]{animation:dlg .45s var(--k)}
     <ul class="vorteile">
       <li><i>1</i><div><b>Formular ausfüllen</b><span>Name, Einrichtung und E-Mail genügen</span></div></li>
       <li><i>2</i><div><b>Zugang per E-Mail</b><span>Innerhalb von 24 Stunden in Ihrem Postfach</span></div></li>
-      <li><i>3</i><div><b>7 Tage kostenlos testen</b><span>Volles Paket. Danach entscheiden Sie, ob Sie bleiben.</span></div></li>
+      <li><i>3</i><div><b>7 Tage kostenlos testen</b><span>Paket Start mit Ihren Vorlagen. Danach entscheiden Sie in Ruhe.</span></div></li>
     </ul>
     <p class="direkt">Lieber direkt schreiben? <a href="mailto:hallo@kinvia.de">hallo@kinvia.de</a></p>
   </div>
@@ -1393,7 +1399,7 @@ zs.classList.toggle('l1',s1>0.55);zs.classList.toggle('l2',s2>0.55)};
 addEventListener('scroll',()=>{if(!t){t=true;requestAnimationFrame(male)}},{passive:true});addEventListener('resize',male);male();})();
 
 /* Ranken zwischen den Themen einsetzen und ans Scrollen koppeln */
-(()=>{const ids=['angebot','preise','kontakt'];
+(()=>{const ids=['bereiche','ablauf','preise'];
 const svg='<svg viewBox="0 0 64 110" aria-hidden="true"><path class="t-stiel" pathLength="1" d="M32 4 C 20 26 44 44 32 64 S 30 92 32 104"/><path class="t-bl l t1" d="M31 40 c-4 -9 -13 -13 -21 -12 c3 9 12 14 21 12z" fill="#8DBF8F"/><path class="t-bl r t2" d="M33 70 c4 -9 13 -13 21 -12 c-3 9 -12 14 -21 12z" fill="#8DBF8F"/><g class="t-bl t3"><path d="M31 106 C24 104 21 97 22 88 c7 3 10 10 9 18z" fill="#2F6B4F"/><path d="M33 106 c1-7 4-11 10-13 0 7-4 11-10 13z" fill="#8DBF8F"/></g></svg>';
 const tr=[];ids.forEach(id=>{const sec=document.getElementById(id);if(!sec)return;const d=document.createElement('div');d.className='trenner';d.setAttribute('aria-hidden','true');d.innerHTML=svg;sec.parentNode.insertBefore(d,sec);tr.push(d)});
 const cl=v=>Math.max(0,Math.min(1,v));let t=false;
