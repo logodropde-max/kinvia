@@ -911,6 +911,20 @@ dialog[open]{animation:dlg .45s var(--k)}
 #warum.sec{padding-bottom:40px}
 #bereiche.sec{padding-top:40px}
 .trenner.t-bereiche{margin:0 auto!important}
+/* Preise am Handy: seitlich wischen, Start auf „Plus“, Punkte darunter */
+.p-punkte{display:none}
+@media(max-width:1020px){
+  .plans{display:flex!important;position:relative;max-width:none!important;gap:14px;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;margin:0 -20px!important;padding:22px 20px 24px;scroll-padding:0 20px}
+  .plans::-webkit-scrollbar{display:none}
+  .plans .plan{flex:0 0 84%;scroll-snap-align:center;order:0!important}
+  .plans .plan:hover,.plans .plan.pop.r.in,.plans .plan.pop.r.in:hover{transform:none}
+  .p-punkte{display:flex;justify-content:center;gap:2px;margin:0 0 8px}
+  .p-punkte button{width:32px;height:32px;display:grid;place-items:center;background:none;border:0;padding:0;cursor:pointer}
+  .p-punkte i{display:block;width:8px;height:8px;border-radius:4px;background:var(--line2);transition:width .35s var(--k),background .35s}
+  .p-punkte .an i{width:24px;background:var(--green)}
+}
+@media(min-width:600px) and (max-width:1020px){.plans .plan{flex-basis:58%}}
+.plan .price{flex-wrap:wrap;row-gap:2px}.plan .price b{white-space:nowrap}
 </style>
 </head>
 <body class="intro-an">
@@ -1500,6 +1514,15 @@ function schritt(){ist+=(ziel-ist)*0.14;if(Math.abs(ziel-ist)<0.001)ist=ziel;zei
 addEventListener('scroll',()=>{ziel=wert();if(!laeuft){laeuft=true;requestAnimationFrame(schritt)}},{passive:true});
 addEventListener('resize',()=>{clearTimeout(window.__hb);window.__hb=setTimeout(mess,150)});
 addEventListener('load',mess);mess();setTimeout(mess,800);})();
+/* Preise am Handy: seitlich wischen */
+(()=>{const pl=document.querySelector('.plans');if(!pl)return;const karten=[...pl.children];if(karten.length<2)return;
+const dots=document.createElement('div');dots.className='p-punkte';dots.innerHTML=karten.map(k=>'<button type="button" aria-label="'+k.querySelector('h3').textContent+' anzeigen"><i></i></button>').join('');pl.after(dots);
+const knopf=[...dots.children],mob=()=>innerWidth<=1020,mitte=k=>k.offsetLeft+k.offsetWidth/2-pl.clientWidth/2;
+function mark(){const c=pl.scrollLeft+pl.clientWidth/2;let b=0,bd=1e9;karten.forEach((k,i)=>{const d=Math.abs(k.offsetLeft+k.offsetWidth/2-c);if(d<bd){bd=d;b=i}});knopf.forEach((d,i)=>d.classList.toggle('an',i===b))}
+function start(){if(!mob())return;karten.forEach(k=>k.classList.add('in'));pl.scrollLeft=mitte(pl.querySelector('.pop')||karten[0]);mark()}
+let t=false;pl.addEventListener('scroll',()=>{if(!t){t=true;requestAnimationFrame(()=>{t=false;mark()})}},{passive:true});
+knopf.forEach((d,i)=>d.addEventListener('click',()=>pl.scrollTo({left:mitte(karten[i]),behavior:'smooth'})));
+addEventListener('load',start);start();})();
 </script>
 </body>
 </html>
