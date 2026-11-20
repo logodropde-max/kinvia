@@ -890,7 +890,7 @@ dialog[open]{animation:dlg .45s var(--k)}
 #huerden.buehne-an{display:block!important;position:relative}
 #huerden.buehne-an .h-buehne{position:sticky;top:var(--bt,110px);display:flex;flex-direction:column;justify-content:center}
 #huerden.buehne-an .h-karten{display:grid}
-#huerden.buehne-an .h-karten .huerde{grid-area:1/1;position:relative!important;top:auto!important;margin:0!important;opacity:0!important;transform:translateY(40px) scale(.98)!important;transition:opacity .5s ease,transform .7s var(--k),border-color .4s!important;pointer-events:none;box-shadow:none}
+#huerden.buehne-an .h-karten .huerde{grid-area:1/1;position:relative!important;top:auto!important;margin:0!important;opacity:0!important;transform:translateY(40px) scale(.98)!important;transition:border-color .5s,box-shadow .5s!important;pointer-events:none;box-shadow:none;will-change:opacity,transform}
 #huerden.buehne-an .h-karten .huerde.vorbei{transform:translateY(-40px) scale(.98)!important}
 #huerden.buehne-an .h-karten .huerde.aktiv{opacity:1!important;transform:none!important;pointer-events:auto;border-color:var(--leaf);box-shadow:0 30px 60px -36px rgba(31,59,48,.4)}
 #huerden.buehne-an .h-karten .huerde.ende.aktiv{border-color:var(--ink)}
@@ -900,9 +900,13 @@ dialog[open]{animation:dlg .45s var(--k)}
   #warum .warum-zahl,#warum .warum-fort{display:none!important}
   #huerden.buehne-an .h-zahl{display:flex;width:100%;justify-content:flex-start;align-items:baseline;gap:8px;margin:0 0 14px;font-size:14px;color:var(--muted)}
   .h-zahl b{font-family:var(--serif);font-weight:500;font-size:22px;color:var(--ink)}
-  .h-zahl .hz-bar{flex:1;align-self:center;height:3px;margin-left:12px;border-radius:3px;background:var(--line);overflow:hidden}
-  .h-zahl .hz-bar i{display:block;height:100%;background:var(--green);transform-origin:left;transform:scaleX(0);transition:transform .2s linear}
 }
+/* Linie in 4 Schritten (PC links, Handy über der Karte) */
+.h-schritte{display:flex;gap:6px}
+.warum-fort.h-schritte{background:none!important;overflow:visible;height:3px}
+.h-schritte span{flex:1;height:3px;border-radius:3px;background:var(--line);overflow:hidden}
+.h-schritte i{display:block;height:100%;background:var(--green);transform-origin:left;transform:scaleX(0)}
+.h-zahl .h-schritte{flex:1;align-self:center;margin-left:12px}
 </style>
 </head>
 <body class="intro-an">
@@ -1462,24 +1466,34 @@ box.appendChild(b);box.classList.add('buehne-an');box.style.setProperty('--hk',k
 const male=()=>{t=false;const r=box.getBoundingClientRect(),weg=Math.max(1,r.height-b.offsetHeight);const p=Math.max(0,Math.min(.999,(84-r.top)/weg));const a=Math.floor(p*karten.length);
 if(a===last)return;last=a;karten.forEach((k,i)=>{k.classList.toggle('aktiv',i===a);k.classList.toggle('vorbei',i<a)});pt.forEach((x,i)=>x.classList.toggle('an',i===a))};
 addEventListener('scroll',()=>{if(!t){t=true;requestAnimationFrame(male)}},{passive:true});addEventListener('resize',male);male();})();
-/* Hürden-Bühne: Abschnitt bleibt stehen, Karte 1 geht, Karte 2 kommt … bis 4, dann scrollt die Seite weiter */
+/* Hürden-Bühne: Abschnitt bleibt stehen, Karten gleiten weich ineinander über, Linie in 4 Schritten */
 (()=>{if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
 const box=document.getElementById('huerden');if(!box)return;const karten=[...box.querySelectorAll('.huerde')];const n=karten.length;if(n<2)return;
-const kopf=document.getElementById('kopf'),wnr=document.getElementById('warumnr'),wbar=document.getElementById('warumbar');
+const kopf=document.getElementById('kopf'),wnr=document.getElementById('warumnr'),wfort=document.querySelector('.warum-fort');
+const seg=()=>Array.from({length:n},()=>'<span><i></i></span>').join('');
 const bu=document.createElement('div');bu.className='h-buehne';
-const zahl=document.createElement('div');zahl.className='h-zahl';zahl.setAttribute('aria-hidden','true');zahl.innerHTML='<b>01</b> / '+String(n).padStart(2,'0')+'<span class="hz-bar"><i></i></span>';
+const zahl=document.createElement('div');zahl.className='h-zahl';zahl.setAttribute('aria-hidden','true');zahl.innerHTML='<b>01</b> / '+String(n).padStart(2,'0')+'<span class="h-schritte">'+seg()+'</span>';
 const kw=document.createElement('div');kw.className='h-karten';karten.forEach(k=>{k.classList.add('in');kw.appendChild(k)});
 bu.appendChild(zahl);bu.appendChild(kw);box.appendChild(bu);box.classList.add('buehne-an');
-const zb=zahl.querySelector('b'),zi=zahl.querySelector('i');let bh=0,oben=0,last=-1,t=false;
-function mess(){const vh=innerHeight,kh=kopf?kopf.offsetHeight:70;kw.style.minHeight='';bh=bu.offsetHeight;
+if(wfort){wfort.classList.add('h-schritte');wfort.innerHTML=seg()}
+const fuell=[...document.querySelectorAll('.h-schritte i')],zb=zahl.querySelector('b');
+let bh=0,oben=0,ziel=0,ist=0,laeuft=false,lastA=-1;
+const cl=(v,a=0,b=1)=>Math.max(a,Math.min(b,v)),weich=v=>v*v*(3-2*v);
+function mess(){const vh=innerHeight,kh=kopf?kopf.offsetHeight:70;bh=bu.offsetHeight;
   oben=Math.max(kh+16,Math.round((vh-bh)/2+kh/2));box.style.setProperty('--bt',oben+'px');
-  box.style.height=Math.round(bh+(n-1)*vh*.6)+'px';last=-1;male()}
-function male(){t=false;const r=box.getBoundingClientRect(),weg=Math.max(1,box.offsetHeight-bh);
-  const p=Math.max(0,Math.min(1,(oben-r.top)/weg));const a=Math.min(n-1,Math.floor(p*n));
-  zi.style.transform='scaleX('+p.toFixed(3)+')';if(wbar)wbar.style.transform='scaleX('+p.toFixed(3)+')';
-  if(a===last)return;last=a;karten.forEach((k,i)=>{k.classList.toggle('aktiv',i===a);k.classList.toggle('vorbei',i<a)});
-  const nr=String(a+1).padStart(2,'0');zb.textContent=nr;if(wnr)wnr.textContent=nr}
-addEventListener('scroll',()=>{if(!t){t=true;requestAnimationFrame(male)}},{passive:true});
+  box.style.height=Math.round(bh+(n-1)*vh*.7)+'px';ziel=wert();ist=ziel;zeichne()}
+function wert(){const r=box.getBoundingClientRect(),weg=Math.max(1,box.offsetHeight-bh);return cl((oben-r.top)/weg)*n}
+function zeichne(){const f=Math.min(ist,n-0.0001);
+  karten.forEach((k,i)=>{const t=f-i;let o=1,y=0,sc=1;
+    if(t<0){const e=weich(cl(1+t/0.22));o=e;y=(1-e)*36;sc=.98+.02*e}
+    else if(t>0.6&&i<n-1){const e=weich(cl((t-0.6)/0.24));o=1-e;y=-e*36;sc=1-.02*e}
+    if(i===0&&t<0){o=1;y=0;sc=1}
+    k.style.setProperty('opacity',o.toFixed(3),'important');k.style.setProperty('transform','translateY('+y.toFixed(1)+'px) scale('+sc.toFixed(4)+')','important');
+    k.style.setProperty('z-index',o>.5?2:1);k.style.pointerEvents=o>.5?'auto':'none'});
+  fuell.forEach((x,j)=>{const i=j%n;x.style.transform='scaleX('+cl(f-i).toFixed(3)+')'});
+  const a=Math.min(n-1,Math.floor(f+0.35));if(a!==lastA){lastA=a;karten.forEach((k,i)=>k.classList.toggle('aktiv',i===a));const nr=String(a+1).padStart(2,'0');zb.textContent=nr;if(wnr)wnr.textContent=nr}}
+function schritt(){ist+=(ziel-ist)*0.14;if(Math.abs(ziel-ist)<0.001)ist=ziel;zeichne();if(ist!==ziel)requestAnimationFrame(schritt);else laeuft=false}
+addEventListener('scroll',()=>{ziel=wert();if(!laeuft){laeuft=true;requestAnimationFrame(schritt)}},{passive:true});
 addEventListener('resize',()=>{clearTimeout(window.__hb);window.__hb=setTimeout(mess,150)});
 addEventListener('load',mess);mess();setTimeout(mess,800);})();
 </script>
