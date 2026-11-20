@@ -1405,7 +1405,7 @@ const w=document.createElement('div');w.className='mini-pflanze';w.setAttribute(
 w.innerHTML='<svg viewBox="0 0 46 112"><ellipse class="mp-erde" cx="23" cy="110" rx="14" ry="3"/><path class="mp-stiel" pathLength="1" d="M23 110 C 21 90 25 70 23 50 S 21 20 23 6"/>'+bl+'</svg>';document.body.appendChild(w);
 const st=w.querySelector('.mp-stiel'),bls=[...w.querySelectorAll('.mp-bl')];let t=false,last=-1;
 const male=()=>{t=false;const vh=innerHeight;let k=0;ids.forEach(sec=>{if(sec.getBoundingClientRect().top<vh*.55)k++});
-w.classList.toggle('da',k>0);if(k===last)return;last=k;st.style.strokeDashoffset=(1-Math.min(1,(k+0.4)/(n+0.4))).toFixed(3);bls.forEach((b,i)=>b.classList.toggle('an',i<k))};
+const mitte=[...document.querySelectorAll('.trenner')].some(d=>{const r=d.getBoundingClientRect();return r.bottom>-40&&r.top<vh+40});w.classList.toggle('da',k>0&&!mitte);if(k===last)return;last=k;st.style.strokeDashoffset=(1-Math.min(1,(k+0.4)/(n+0.4))).toFixed(3);bls.forEach((b,i)=>b.classList.toggle('an',i<k))};
 addEventListener('scroll',()=>{if(!t){t=true;requestAnimationFrame(male)}},{passive:true});addEventListener('resize',male);male();})();
 </script>
 </body>
