@@ -623,6 +623,14 @@ footer .gross-wort{width:min(560px,72vw);bottom:-3vw;color:rgba(255,255,255,.045
 .trenner .t-logo.an{animation:t-wipp 3.6s ease-in-out .9s infinite}
 @keyframes t-wipp{0%,100%{transform:rotate(0)}50%{transform:rotate(-3deg)}}
 @media(prefers-reduced-motion:reduce){.trenner .t-logo.an{animation:none}}
+/* Ranken schöner: Verlauf im Stiel, Blätter mit Ader, die sich entfalten, kleine Locke, Schein hinter dem Logo */
+.trenner .t-stiel{stroke:url(#kv-stiel)!important;stroke-width:1.8!important}
+.trenner g.t-bl.l{transform-origin:100% 100%;transform:scale(0) rotate(-30deg);transition:transform 1s var(--k2)}
+.trenner g.t-bl.r{transform-origin:0% 100%;transform:scale(0) rotate(30deg);transition:transform 1s var(--k2)}
+.trenner g.t-bl.l.an,.trenner g.t-bl.r.an{transform:none}
+.trenner .t-locke{fill:none;stroke:#8DBF8F;stroke-width:1.1;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1}
+.trenner .t-hof{opacity:0;transform-box:fill-box;transform-origin:50% 50%;transform:scale(.6);transition:opacity 1.2s ease,transform 1.4s var(--k)}
+.trenner.voll .t-hof{opacity:1;transform:none}
 /* Kontakt-Kasten eleganter: ruhiges Tiefgrün, feine Lichtkante, zarte Zahlen */
 body .k-info{background:radial-gradient(120% 90% at 100% 0%,rgba(141,191,143,.20),transparent 55%),linear-gradient(160deg,#24493B 0%,#1F3B30 70%);border-radius:24px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.07),0 30px 60px -40px rgba(31,59,48,.55)}
 body .k-info .deko{opacity:.06}
@@ -1487,15 +1495,21 @@ addEventListener('scroll',()=>{if(!t){t=true;requestAnimationFrame(male)}},{pass
 /* Ranken zwischen den Themen einsetzen und ans Scrollen koppeln */
 (()=>{const ids=['bereiche','angebot','ablauf','preise'];
 /* Eine Pflanze, die mit der Seite wächst: Keimling, junge Pflanze, Zweig, Kinvia-Logo */
+if(!document.getElementById('kv-defs')){const df=document.createElement('div');df.id='kv-defs';df.setAttribute('aria-hidden','true');df.style.cssText='position:absolute;width:0;height:0;overflow:hidden';
+df.innerHTML='<svg width="0" height="0"><defs><linearGradient id="kv-stiel" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8DBF8F" stop-opacity=".15"/><stop offset=".3" stop-color="#8DBF8F"/><stop offset="1" stop-color="#3F7D5C"/></linearGradient><linearGradient id="kv-bh" x1="1" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#7DB382"/><stop offset="1" stop-color="#C2E0BC"/></linearGradient><linearGradient id="kv-bd" x1="1" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#245A41"/><stop offset="1" stop-color="#4E9270"/></linearGradient><radialGradient id="kv-hof"><stop offset="0" stop-color="#8DBF8F" stop-opacity=".35"/><stop offset="1" stop-color="#8DBF8F" stop-opacity="0"/></radialGradient></defs></svg>';document.body.appendChild(df)}
+const blatt=(y,links,dunkel)=>{const f=dunkel?'url(#kv-bd)':'url(#kv-bh)';return links
+ ?'<g class="t-bl l"><path d="M31 '+y+'c-7 1-16-3-23-14c10-3 19 1 23 14z" fill="'+f+'"/><path d="M31 '+y+'c-6-3-12-7-18-12" fill="none" stroke="#fff" stroke-opacity=".45" stroke-width=".8" stroke-linecap="round"/></g>'
+ :'<g class="t-bl r"><path d="M33 '+y+'c7 1 16-3 23-14c-10-3-19 1-23 14z" fill="'+f+'"/><path d="M33 '+y+'c6-3 12-7 18-12" fill="none" stroke="#fff" stroke-opacity=".45" stroke-width=".8" stroke-linecap="round"/></g>'};
 const bau=(n)=>{const H=[0,70,88,106,136][n],m=Math.min(n,3);const st='M32 4 C 20 '+(H*.24).toFixed(0)+' 44 '+(H*.42).toFixed(0)+' 32 '+(H*.6).toFixed(0)+' S 30 '+(H*.86).toFixed(0)+' 32 '+(H-8);
-let b='';for(let i=0;i<m;i++){const y=(H*(.3+i*(.42/Math.max(1,m-1)))).toFixed(0)*1,l=i%2===0,f=i===m-1&&m>1?'#2F6B4F':'#8DBF8F';
-b+=l?'<path class="t-bl l" d="M31 '+y+' c-4 -9 -13 -13 -21 -12 c3 9 12 14 21 12z" fill="'+f+'"/>':'<path class="t-bl r" d="M33 '+y+' c4 -9 13 -13 21 -12 c-3 9 -12 14 -21 12z" fill="'+f+'"/>'}
-const ende=n<4?'<g transform="translate(0 '+(H-110)+')"><g class="t-bl t-ende"><path d="M31 106 C24 104 21 97 22 88 c7 3 10 10 9 18z" fill="#2F6B4F"/><path d="M33 106 c1-7 4-11 10-13 0 7-4 11-10 13z" fill="#8DBF8F"/></g></g>'
-:'<g transform="translate(11 '+(H-41)+') scale(.66)"><g class="t-bl t-ende t-logo"><path d="M31 58C14 52 6 34 10 8c17 8 25 26 21 50z" fill="#2F6B4F"/><path d="M33 58c2-17 9-27 23-31-1 16-9 27-23 31z" fill="#8DBF8F"/></g></g>';
-return '<svg viewBox="0 0 64 '+H+'" aria-hidden="true"><path class="t-stiel" pathLength="1" d="'+st+'"/>'+b+ende+'</svg>'};
+let b='';for(let i=0;i<m;i++){const y=Math.round(H*(.32+i*(.4/Math.max(1,m-1))));b+=blatt(y,i%2===0,i===m-1&&m>1)}
+const yl=Math.round(H*.56);const lo=n>1?'<path class="t-locke" pathLength="1" d="M31 '+yl+'q-9 -1 -10 -8q0 -6 5 -5q3 1 1 4"/>':'';
+const ende=n<4?'<g transform="translate(0 '+(H-110)+')"><g class="t-bl t-ende"><path d="M31 106C23 104 20 96 21 86c8 3 11 11 10 20z" fill="url(#kv-bd)"/><path d="M33 106c1-8 5-12 12-14 0 8-5 12-12 14z" fill="url(#kv-bh)"/></g></g>'
+:'<circle class="t-hof" cx="32" cy="'+(H-20)+'" r="30" fill="url(#kv-hof)"/><g transform="translate(11 '+(H-41)+') scale(.66)"><g class="t-bl t-ende t-logo"><path d="M31 58C14 52 6 34 10 8c17 8 25 26 21 50z" fill="#2F6B4F"/><path d="M33 58c2-17 9-27 23-31-1 16-9 27-23 31z" fill="#8DBF8F"/></g></g>';
+return '<svg viewBox="0 0 64 '+H+'" aria-hidden="true"><path class="t-stiel" pathLength="1" d="'+st+'"/>'+lo+b+ende+'</svg>'};
 const tr=[];ids.forEach((id,k)=>{const sec=document.getElementById(id);if(!sec)return;const d=document.createElement('div');d.className='trenner t-'+id+' s'+(k+1);d.setAttribute('aria-hidden','true');d.innerHTML=bau(k+1);sec.parentNode.insertBefore(d,sec);tr.push(d)});
 const cl=v=>Math.max(0,Math.min(1,v));let t=false;
 const male=()=>{t=false;const vh=innerHeight;tr.forEach(d=>{const r=d.getBoundingClientRect();const p=cl((vh*.92-r.top)/(vh*.45));d.querySelector('.t-stiel').style.strokeDashoffset=(1-p).toFixed(3);
+const lo=d.querySelector('.t-locke');if(lo)lo.style.strokeDashoffset=(1-cl((p-.45)/.4)).toFixed(3);d.classList.toggle('voll',p>.96);
 const bl=[...d.querySelectorAll('.t-bl')];bl.forEach((x,i)=>x.classList.toggle('an',p>(i===bl.length-1?.96:.3+i*(.55/bl.length))))})};
 addEventListener('scroll',()=>{if(!t){t=true;requestAnimationFrame(male)}},{passive:true});addEventListener('resize',male);male();})();
 
@@ -1543,18 +1557,18 @@ let bh=0,oben=0,W=1,hs=[],ziel=0,ist=0,laeuft=false,lastA=-1;const ENDE=n-0.5;
 const cl=(v,a=0,b=1)=>Math.max(a,Math.min(b,v)),weich=v=>v*v*(3-2*v);
 function mess(){const vh=innerHeight,kh=kopf?kopf.offsetHeight:70;kw.style.height='';hs=karten.map(k=>k.offsetHeight);bh=bu.offsetHeight;const zh=bh-kw.offsetHeight;
   oben=Math.max(kh+16,Math.round((vh-bh)/2+kh/2));box.style.setProperty('--bt',oben+'px');
-  W=Math.round(n*vh*.55);box.style.height=Math.round(W+zh+hs[n-1])+'px';ziel=wert();ist=ziel;zeichne()}
+  W=Math.round(n*vh*.62);box.style.height=Math.round(W+zh+hs[n-1])+'px';ziel=wert();ist=ziel;zeichne()}
 function wert(){const r=box.getBoundingClientRect();return cl((oben-r.top)/W)*ENDE}
-function zeichne(){const f=Math.min(ist,n-0.0001);{const i=Math.min(n-2,Math.floor(f)),u=weich(cl((f-i-0.6)/0.24));kw.style.height=Math.round(hs[i]+(hs[i+1]-hs[i])*u)+'px'}
-  karten.forEach((k,i)=>{const t=f-i;let o=1,y=0,sc=1;
-    if(t<0){const e=weich(cl(1+t/0.22));o=e;y=(1-e)*36;sc=.98+.02*e}
-    else if(t>0.6&&i<n-1){const e=weich(cl((t-0.6)/0.24));o=1-e;y=-e*36;sc=1-.02*e}
-    if(i===0&&t<0){o=1;y=0;sc=1}
+function zeichne(){const f=Math.min(ist,n-0.0001),D=0.5;{const i=Math.min(n-2,Math.floor(f)),u=weich(cl((f-i-(1-D))/D));kw.style.height=Math.round(hs[i]+(hs[i+1]-hs[i])*u)+'px'}
+  karten.forEach((k,i)=>{const t=f-i;let o=1,y=0,sc=1,bl=0;
+    if(t<0&&i>0){const e=weich(cl(1+t/D));o=cl(e*1.6-.6);y=(1-e)*30;sc=.97+.03*e;bl=(1-e)*6}
+    else if(t>1-D&&i<n-1){const e=weich(cl((t-(1-D))/D));o=cl(1-e*1.6);y=-e*30;sc=1-.03*e;bl=e*6}
     k.style.setProperty('opacity',o.toFixed(3),'important');k.style.setProperty('transform','translateY('+y.toFixed(1)+'px) scale('+sc.toFixed(4)+')','important');
+    k.style.filter=bl>.05?'blur('+bl.toFixed(2)+'px)':'';
     k.style.setProperty('z-index',o>.5?2:1);k.style.pointerEvents=o>.5?'auto':'none'});
   fuell.forEach((x,j)=>{const i=j%n;x.style.transform='scaleX('+cl((f-i)/(i===n-1?ENDE-(n-1):1)).toFixed(3)+')'});
-  const a=Math.min(n-1,Math.floor(f+0.35));if(a!==lastA){lastA=a;karten.forEach((k,i)=>k.classList.toggle('aktiv',i===a));const nr=String(a+1).padStart(2,'0');zb.textContent=nr;if(wnr)wnr.textContent=nr}}
-function schritt(){ist+=(ziel-ist)*0.14;if(Math.abs(ziel-ist)<0.001)ist=ziel;zeichne();if(ist!==ziel)requestAnimationFrame(schritt);else laeuft=false}
+  const a=Math.min(n-1,Math.floor(f+0.25));if(a!==lastA){lastA=a;karten.forEach((k,i)=>k.classList.toggle('aktiv',i===a));const nr=String(a+1).padStart(2,'0');zb.textContent=nr;if(wnr)wnr.textContent=nr}}
+function schritt(){ist+=(ziel-ist)*0.12;if(Math.abs(ziel-ist)<0.001)ist=ziel;zeichne();if(ist!==ziel)requestAnimationFrame(schritt);else laeuft=false}
 addEventListener('scroll',()=>{ziel=wert();if(!laeuft){laeuft=true;requestAnimationFrame(schritt)}},{passive:true});
 addEventListener('resize',()=>{clearTimeout(window.__hb);window.__hb=setTimeout(mess,150)});
 addEventListener('load',mess);mess();setTimeout(mess,800);})();
