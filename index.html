@@ -609,7 +609,20 @@ footer .gross-wort{width:min(560px,72vw);bottom:-3vw;color:rgba(255,255,255,.045
   #huerden .h-faden i.an{background:var(--green);width:22px}
 }
 /* Ranke vor Preise nur auf dem hellen Grund */
-.trenner.t-preise{margin:22px auto -66px}
+/* Wachsende Ranke: vier Stufen bis zum Kinvia-Logo, Seitenranke ganz raus */
+.ranke{display:none!important}
+.trenner{width:52px;opacity:.9}
+.trenner.s1{height:56px;margin:-28px auto}
+.trenner.s2{height:70px;margin:-35px auto}
+.trenner.s3{height:85px;margin:-42px auto}
+.trenner.s4{width:60px;height:128px;margin:-64px auto}
+.trenner.t-preise{margin:22px auto -84px}
+.trenner .t-bl.an{transform:scale(1)}
+.trenner .t-ende{transform-origin:50% 100%;transition:transform .9s var(--k2)}
+.trenner .t-logo{transform-box:fill-box;transform-origin:50% 100%}
+.trenner .t-logo.an{animation:t-wipp 3.6s ease-in-out .9s infinite}
+@keyframes t-wipp{0%,100%{transform:rotate(0)}50%{transform:rotate(-3deg)}}
+@media(prefers-reduced-motion:reduce){.trenner .t-logo.an{animation:none}}
 /* Kontakt-Kasten eleganter: ruhiges Tiefgrün, feine Lichtkante, zarte Zahlen */
 body .k-info{background:radial-gradient(120% 90% at 100% 0%,rgba(141,191,143,.20),transparent 55%),linear-gradient(160deg,#24493B 0%,#1F3B30 70%);border-radius:24px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.07),0 30px 60px -40px rgba(31,59,48,.55)}
 body .k-info .deko{opacity:.06}
@@ -1473,10 +1486,17 @@ addEventListener('scroll',()=>{if(!t){t=true;requestAnimationFrame(male)}},{pass
 
 /* Ranken zwischen den Themen einsetzen und ans Scrollen koppeln */
 (()=>{const ids=['bereiche','angebot','ablauf','preise'];
-const svg='<svg viewBox="0 0 64 110" aria-hidden="true"><path class="t-stiel" pathLength="1" d="M32 4 C 20 26 44 44 32 64 S 30 92 32 104"/><path class="t-bl l t1" d="M31 40 c-4 -9 -13 -13 -21 -12 c3 9 12 14 21 12z" fill="#8DBF8F"/><path class="t-bl r t2" d="M33 70 c4 -9 13 -13 21 -12 c-3 9 -12 14 -21 12z" fill="#8DBF8F"/><g class="t-bl t3"><path d="M31 106 C24 104 21 97 22 88 c7 3 10 10 9 18z" fill="#2F6B4F"/><path d="M33 106 c1-7 4-11 10-13 0 7-4 11-10 13z" fill="#8DBF8F"/></g></svg>';
-const tr=[];ids.forEach(id=>{const sec=document.getElementById(id);if(!sec)return;const d=document.createElement('div');d.className='trenner t-'+id;d.setAttribute('aria-hidden','true');d.innerHTML=svg;sec.parentNode.insertBefore(d,sec);tr.push(d)});
+/* Eine Pflanze, die mit der Seite wächst: Keimling, junge Pflanze, Zweig, Kinvia-Logo */
+const bau=(n)=>{const H=[0,70,88,106,136][n],m=Math.min(n,3);const st='M32 4 C 20 '+(H*.24).toFixed(0)+' 44 '+(H*.42).toFixed(0)+' 32 '+(H*.6).toFixed(0)+' S 30 '+(H*.86).toFixed(0)+' 32 '+(H-8);
+let b='';for(let i=0;i<m;i++){const y=(H*(.3+i*(.42/Math.max(1,m-1)))).toFixed(0)*1,l=i%2===0,f=i===m-1&&m>1?'#2F6B4F':'#8DBF8F';
+b+=l?'<path class="t-bl l" d="M31 '+y+' c-4 -9 -13 -13 -21 -12 c3 9 12 14 21 12z" fill="'+f+'"/>':'<path class="t-bl r" d="M33 '+y+' c4 -9 13 -13 21 -12 c-3 9 -12 14 -21 12z" fill="'+f+'"/>'}
+const ende=n<4?'<g transform="translate(0 '+(H-110)+')"><g class="t-bl t-ende"><path d="M31 106 C24 104 21 97 22 88 c7 3 10 10 9 18z" fill="#2F6B4F"/><path d="M33 106 c1-7 4-11 10-13 0 7-4 11-10 13z" fill="#8DBF8F"/></g></g>'
+:'<g transform="translate(11 '+(H-41)+') scale(.66)"><g class="t-bl t-ende t-logo"><path d="M31 58C14 52 6 34 10 8c17 8 25 26 21 50z" fill="#2F6B4F"/><path d="M33 58c2-17 9-27 23-31-1 16-9 27-23 31z" fill="#8DBF8F"/></g></g>';
+return '<svg viewBox="0 0 64 '+H+'" aria-hidden="true"><path class="t-stiel" pathLength="1" d="'+st+'"/>'+b+ende+'</svg>'};
+const tr=[];ids.forEach((id,k)=>{const sec=document.getElementById(id);if(!sec)return;const d=document.createElement('div');d.className='trenner t-'+id+' s'+(k+1);d.setAttribute('aria-hidden','true');d.innerHTML=bau(k+1);sec.parentNode.insertBefore(d,sec);tr.push(d)});
 const cl=v=>Math.max(0,Math.min(1,v));let t=false;
-const male=()=>{t=false;const vh=innerHeight;tr.forEach(d=>{const r=d.getBoundingClientRect();const p=cl((vh*.92-r.top)/(vh*.45));d.style.setProperty('--tp',p.toFixed(3));d.querySelector('.t-stiel').style.strokeDashoffset=(1-p).toFixed(3);d.classList.toggle('b1',p>.4);d.classList.toggle('b2',p>.68);d.classList.toggle('b3',p>.96)})};
+const male=()=>{t=false;const vh=innerHeight;tr.forEach(d=>{const r=d.getBoundingClientRect();const p=cl((vh*.92-r.top)/(vh*.45));d.querySelector('.t-stiel').style.strokeDashoffset=(1-p).toFixed(3);
+const bl=[...d.querySelectorAll('.t-bl')];bl.forEach((x,i)=>x.classList.toggle('an',p>(i===bl.length-1?.96:.3+i*(.55/bl.length))))})};
 addEventListener('scroll',()=>{if(!t){t=true;requestAnimationFrame(male)}},{passive:true});addEventListener('resize',male);male();})();
 
 /* Hürden am Handy: Karten laufen durch, unten 4 Punkte */
