@@ -494,7 +494,7 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
 /* Zeitstrahl folgt dem Scrollen: wächst beim Runter-, schrumpft beim Hochscrollen */
 .zeit.scroll .schritt:nth-child(2)::after{clip-path:inset(0 calc((1 - var(--s1,0)) * 100%) 0 0)!important;transition:clip-path .25s linear!important}
 .zeit.scroll .schritt:nth-child(3)::after{clip-path:inset(0 calc((1 - var(--s2,0)) * 100%) 0 0)!important;transition:clip-path .25s linear!important}
-.zeit.scroll .schritt .knoten{transition-delay:0s!important}
+.zeit.scroll .schritt .knoten{transition-delay:0s!important;transition-duration:.35s!important}
 .zeit.scroll:not(.k1) .schritt:nth-child(2) .knoten,.zeit.scroll:not(.k2) .schritt:nth-child(3) .knoten,.zeit.scroll:not(.k3) .schritt:nth-child(4) .knoten{background:var(--cream)!important;border-color:var(--line2)!important;color:var(--muted)!important;transform:scale(.92)!important;opacity:.7!important}
 .zeit.scroll .z-blatt path{transition-delay:0s!important}
 .zeit.scroll:not(.l1) .zb1 path,.zeit.scroll:not(.l2) .zb2 path{transform:scale(0)!important}
@@ -511,6 +511,49 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
 .trenner.b1 .t1,.trenner.b2 .t2,.trenner.b3 .t3{transform:scale(1)}
 .trenner .t3{transform-origin:50% 100%}
 @media(max-width:1340px){.ranke path.stiel-r{opacity:.8;stroke-width:2}.ranke .rb{opacity:.85}}
+/* Schlanke Fußleiste */
+footer{padding:64px 0 30px}
+.fuss{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;gap:16px}
+.fuss .logo{display:flex}.fuss .logo .wort{color:#fff}
+.fuss-satz{margin:0;font-family:var(--serif);font-style:italic;font-size:19px;color:#CFE0D3}
+.fuss-links{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 22px;margin-top:6px}
+.fuss-links a,.fuss-links button.lk{font:500 14.5px Manrope,sans-serif;color:#CFE0D3;background:none;border:0;padding:6px 0;cursor:pointer;transition:color .2s}
+.fuss-links a:hover,.fuss-links button.lk:hover{color:#fff}
+.fuss .copy{width:100%;justify-content:center;gap:8px 22px;margin-top:22px;padding-top:20px}
+.fuss .copy a{color:#8FA79A}.fuss .copy a:hover{color:#fff}
+/* Hürden am Handy: Karten bleiben stehen, Faden mit Pflanzen zeigt 1 bis 4 */
+.h-faden,.h-luecke{display:none}
+@media(max-width:1020px){
+  .h-faden{display:flex;position:sticky;top:74px;z-index:5;justify-content:space-between;align-items:center;padding:22px 20px 12px;margin:0 0 16px;background:rgba(246,243,236,.94);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border-radius:18px}
+  .hf-linie{position:absolute;left:35px;right:35px;top:calc(50% + 5px);height:2px;background:var(--line2);border-radius:2px}
+  .hf-linie i{position:absolute;inset:0;background:var(--leaf);transform-origin:left;transform:scaleX(var(--hp,0));transition:transform .2s linear;border-radius:2px}
+  .hf-p{position:relative;z-index:1;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:var(--cream);border:1.5px solid var(--line2);font:italic 500 15px var(--serif);color:var(--muted);transition:background .4s,border-color .4s,color .4s}
+  .hf-p.an{background:var(--green);border-color:var(--green);color:#fff}
+  .hf-p svg{position:absolute;left:50%;bottom:calc(100% - 2px);width:22px;height:22px;margin-left:-11px;overflow:visible}
+  .hf-p svg path{transform-box:fill-box;transform:scale(0);transition:transform .6s var(--k2)}
+  .hf-p svg .a{transform-origin:70% 100%}.hf-p svg .b{transform-origin:0% 100%;transition-delay:.12s}
+  .hf-p.an svg path{transform:scale(1)}
+  #huerden{display:block;position:relative}
+  #huerden .huerde{position:sticky;top:158px;margin-bottom:0;opacity:1!important;transform:none!important;box-shadow:0 -10px 40px -24px rgba(31,59,48,.35)}
+  #huerden .h-luecke{display:block;height:46vh}
+  #huerden .huerde:not(.aktiv){border-color:var(--line)}
+}
+/* Seitenranke: deutlicher, mit wandernder Spitze */
+.ranke path.stiel-r{opacity:.9!important;stroke-width:2.4!important}
+.ranke .r-spitze{transition:opacity .3s}
+.ranke .rs-hof{fill:rgba(141,191,143,.25)}
+.ranke .rs-a{fill:var(--green)}.ranke .rs-b{fill:var(--leaf)}
+/* Handy: Zeitstrahl ohne störende Blätter, Fußleiste kompakter */
+@media(max-width:1020px){.zeit .z-blatt{display:none}}
+footer{margin-top:80px;padding:44px 0 22px}
+.fuss{gap:12px}
+.fuss .logo{transform:scale(.85)}
+.fuss-satz{font-size:16px}
+.fuss-links{gap:2px 18px;margin-top:2px}
+.fuss-links a,.fuss-links button.lk{font-size:13.5px}
+.fuss .copy{margin-top:12px;padding-top:14px;font-size:12.5px}
+footer .gross-wort{width:min(560px,72vw);bottom:-3vw;color:rgba(255,255,255,.045)}
+@media(max-width:600px){footer{margin-top:60px;padding:36px 0 20px}footer .gross-wort{width:78vw;bottom:-2vw}}
 /* Paragraphen Datenschutz */
 .paragraphen{margin-top:18px;font-size:13.5px;line-height:1.7;color:#A9BDB2;max-width:62ch}
 .paragraphen b{color:#fff;font-weight:600}
@@ -676,7 +719,7 @@ dialog[open]{animation:dlg .45s var(--k)}
 @keyframes dlg{from{opacity:0;transform:translateY(18px) scale(.98)}}
 .dlg-kopf{position:sticky;top:0;display:flex;justify-content:space-between;align-items:center;padding:24px 32px;background:var(--paper);border-bottom:1px solid var(--line)}
 .dlg-kopf h3{font-size:26px}
-.zu{width:40px;height:40px;border-radius:50%;border:0;background:var(--cream);cursor:pointer;font-size:20px;color:var(--ink)}
+.zu{flex:none;width:44px;height:44px;padding:0;display:grid;place-items:center;line-height:0;border-radius:50%;border:0;background:var(--cream);cursor:pointer;color:var(--ink);transition:background .2s}.zu:hover{background:var(--mint)}.zu svg{display:block}
 .dlg-inhalt{padding:28px 32px 36px;font-size:15.5px}
 .dlg-inhalt h4{font-family:Manrope,sans-serif;font-weight:600;font-size:16px;margin:24px 0 6px}
 .dlg-inhalt p{margin:0 0 10px;color:var(--muted)}
@@ -1057,14 +1100,11 @@ dialog[open]{animation:dlg .45s var(--k)}
 
 <footer>
   <svg class="gross-wort" viewBox="-6 -6 190 72" aria-hidden="true"><use href="#wort"/></svg>
-  <div class="wrap">
-    <div class="fgrid">
-      <div><a class="logo" href="#"><svg class="zeichen"><use href="#zeichen-hell"/></svg><svg class="wort"><use href="#wort"/></svg></a><p>Kinvia nimmt sozialen Einrichtungen die Schreibarbeit ab. Verschlüsselt und ausschließlich in Deutschland betrieben.</p></div>
-      <div><h5>Fähigkeiten</h5><a href="#angebot">Dokumentieren</a><a href="#angebot">Übersetzen &amp; Dolmetschen</a><a href="#angebot">Gestalten &amp; Planen</a><a href="#angebot">Wissen &amp; Qualität</a></div>
-      <div><h5>Kinvia</h5><a href="#bereiche">Einsatzbereiche</a><a href="#preise">Preise</a><a href="#faq">FAQ</a><a href="#kontakt">Kostenlos testen</a></div>
-      <div><h5>Rechtliches</h5><button class="lk" data-dlg="dlg-imp">Impressum</button><button class="lk" data-dlg="dlg-ds">Datenschutz</button><a href="mailto:hallo@kinvia.de">hallo@kinvia.de</a></div>
-    </div>
-    <div class="copy"><span>© <span id="jahr">2026</span> Kinvia</span><span>Mit Sorgfalt gemacht in Schleswig-Holstein</span></div>
+  <div class="wrap fuss">
+    <a class="logo" href="#"><svg class="zeichen"><use href="#zeichen-hell"/></svg><svg class="wort"><use href="#wort"/></svg></a>
+    <p class="fuss-satz">Mehr Zeit für Menschen. Weniger Schreibtisch.</p>
+    <nav class="fuss-links" aria-label="Fußbereich"><a href="#preise">Preise</a><a href="#faq">FAQ</a><a href="#kontakt">Kostenlos testen</a><button class="lk" data-dlg="dlg-imp">Impressum</button><button class="lk" data-dlg="dlg-ds">Datenschutz</button></nav>
+    <div class="copy"><span>© <span id="jahr">2026</span> Kinvia</span><a href="mailto:hallo@kinvia.de">hallo@kinvia.de</a></div>
   </div>
 </footer>
 
@@ -1072,7 +1112,7 @@ dialog[open]{animation:dlg .45s var(--k)}
 
 <!-- Impressum -->
 <dialog id="dlg-imp" aria-labelledby="imp-t">
-  <div class="dlg-kopf"><h3 id="imp-t">Impressum</h3><button class="zu" aria-label="Schließen">×</button></div>
+  <div class="dlg-kopf"><h3 id="imp-t">Impressum</h3><button class="zu" aria-label="Schließen"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
   <div class="dlg-inhalt">
     <p class="notiz">Vor dem Livegang ergänzen: Gewerbe-Angaben, Telefon und ggf. USt-IdNr. bzw. Hinweis auf Kleinunternehmerregelung.</p>
     <h4>Angaben gemäß § 5 DDG</h4>
@@ -1090,7 +1130,7 @@ dialog[open]{animation:dlg .45s var(--k)}
 
 <!-- Datenschutz -->
 <dialog id="dlg-ds" aria-labelledby="ds-t">
-  <div class="dlg-kopf"><h3 id="ds-t">Datenschutzerklärung</h3><button class="zu" aria-label="Schließen">×</button></div>
+  <div class="dlg-kopf"><h3 id="ds-t">Datenschutzerklärung</h3><button class="zu" aria-label="Schließen"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
   <div class="dlg-inhalt">
     <p class="notiz">Mustertext. Vor dem Livegang an den echten Hoster und Ablauf anpassen und rechtlich prüfen lassen.</p>
     <h4>1. Verantwortlicher</h4>
@@ -1240,7 +1280,7 @@ function takt(){tick=false;const y=scrollY;
   kopf.classList.toggle('scrolled',y>10);fs.style.transform='scaleX('+(docH>0?Math.min(y/docH,1):0)+')';hoch.classList.toggle('da',y>900);
   let akt=-1;secY.forEach((sy,i)=>{if(sy-vh*.4<y)akt=i});navLinks.forEach((a,i)=>a.classList.toggle('aktiv',i===akt));
   if(!ruhig&&innerWidth>600)parEls.forEach(p=>{const d=(y+vh/2)-p.y;if(Math.abs(d)<vh*1.5)p.el.style.transform='translate3d(0,'+(d*p.f).toFixed(1)+'px,0)'});
-  if(hbox&&huerden.length){const mitte=y+vh*.5;let a=0;hTops.forEach((t,i)=>{if(t<mitte)a=i});huerden.forEach((h,i)=>h.classList.toggle('aktiv',i===a));
+  if(hbox&&huerden.length&&innerWidth>1020){const mitte=y+vh*.5;let a=0;hTops.forEach((t,i)=>{if(t<mitte)a=i});huerden.forEach((h,i)=>h.classList.toggle('aktiv',i===a));
     const pr=Math.max(0,Math.min(1,(mitte-hY)/hH));if(wbar)wbar.style.transform='scaleX('+pr+')';if(wnr)wnr.textContent=String(a+1).padStart(2,'0')}
   if(ls){const pr=Math.max(0,Math.min(1,(y+vh*.78-lsY)/(lsH+vh*.3)));const n=Math.round(pr*lsWorte.length);if(n!==lsZahl){lsZahl=n;lsWorte.forEach((w,i)=>w.classList.toggle('an',i<n))}}
 }
@@ -1260,13 +1300,13 @@ if(matchMedia('(pointer:fine)').matches&&!ruhig){
 (()=>{const svg=$('#ranke'),pf=$('#ranke-pfad');if(!svg)return;
   const m=$('main'),secs=[...m.querySelectorAll(':scope > section')];let L=0,blaetter=[];
   function bau(){const H=m.offsetHeight;svg.setAttribute('viewBox','0 0 40 '+H);svg.style.height=H+'px';
-    let d='M20 0';for(let y=0;y<H;y+=240){d+=' C'+(y%480?34:6)+' '+(y+80)+' '+(y%480?6:34)+' '+(y+160)+' 20 '+(y+240)}pf.setAttribute('d',d);
+    const y0=Math.max(0,(document.getElementById('warum')||m).offsetTop-30);window.__ry0=y0;let d='M20 '+y0;for(let y=y0;y<H;y+=240){const k=(y-y0)%480;d+=' C'+(k?34:6)+' '+(y+80)+' '+(k?6:34)+' '+(y+160)+' 20 '+(y+240)}pf.setAttribute('d',d);
     L=pf.getTotalLength();pf.style.strokeDasharray=L;
     svg.querySelectorAll('.rb').forEach(b=>b.remove());blaetter=[];
-    secs.forEach((sc,i)=>{const y=sc.offsetTop+60;const b=document.createElementNS('http://www.w3.org/2000/svg','path');const r=i%2;
+    secs.forEach((sc,i)=>{const y=sc.offsetTop+60;if(y<(window.__ry0||0)+40)return;const b=document.createElementNS('http://www.w3.org/2000/svg','path');const r=i%2;
       b.setAttribute('d',r?'M20 '+y+' c-4 -16 -16 -24 -18 -40 c14 4 20 20 18 40z':'M20 '+y+' c4 -16 16 -24 18 -40 c-14 4 -20 20 -18 40z');b.setAttribute('class','rb'+(r?' links':''));svg.appendChild(b);blaetter.push({b,y})});
     male()}
-  function male(){const fort=Math.max(0,scrollY+innerHeight*.7-m.offsetTop);pf.style.strokeDashoffset=Math.max(0,L-fort*1.04);blaetter.forEach(o=>o.b.classList.toggle('da',o.y<fort))}
+  function male(){const y0=window.__ry0||0;const fort=Math.max(0,scrollY+innerHeight*.7-m.offsetTop-y0);const len=Math.min(L,fort*1.04);pf.style.strokeDashoffset=Math.max(0,L-len);if(!window.__rsp){window.__rsp=document.createElementNS('http://www.w3.org/2000/svg','g');window.__rsp.setAttribute('class','r-spitze');window.__rsp.innerHTML='<circle r="9" class="rs-hof"/><path d="M0 2 C-5 0 -7 -6 -6 -12 c5 2 7 7 6 14z" class="rs-a"/><path d="M0 2 c1-5 4-8 9-9 0 5-4 8-9 9z" class="rs-b"/>';svg.appendChild(window.__rsp)}if(len>4){const pt=pf.getPointAtLength(len);window.__rsp.setAttribute('transform','translate('+pt.x.toFixed(1)+' '+pt.y.toFixed(1)+')');window.__rsp.style.opacity=len<L-2?1:0}else window.__rsp.style.opacity=0;blaetter.forEach(o=>o.b.classList.toggle('da',o.y<fort+y0))}
   let t=false;addEventListener('scroll',()=>{if(!t){t=true;requestAnimationFrame(()=>{t=false;male()})}},{passive:true});
   addEventListener('load',bau);addEventListener('resize',()=>{clearTimeout(window.__rk);window.__rk=setTimeout(bau,200)});bau();})();
 /* Kein Zoomen per Geste (iOS) */
@@ -1310,6 +1350,17 @@ const svg='<svg viewBox="0 0 64 110" aria-hidden="true"><path class="t-stiel" pa
 const tr=[];ids.forEach(id=>{const sec=document.getElementById(id);if(!sec)return;const d=document.createElement('div');d.className='trenner';d.setAttribute('aria-hidden','true');d.innerHTML=svg;sec.parentNode.insertBefore(d,sec);tr.push(d)});
 const cl=v=>Math.max(0,Math.min(1,v));let t=false;
 const male=()=>{t=false;const vh=innerHeight;tr.forEach(d=>{const r=d.getBoundingClientRect();const p=cl((vh*.92-r.top)/(vh*.45));d.style.setProperty('--tp',p.toFixed(3));d.querySelector('.t-stiel').style.strokeDashoffset=(1-p).toFixed(3);d.classList.toggle('b1',p>.4);d.classList.toggle('b2',p>.68);d.classList.toggle('b3',p>.96)})};
+addEventListener('scroll',()=>{if(!t){t=true;requestAnimationFrame(male)}},{passive:true});addEventListener('resize',male);male();})();
+
+/* Hürden-Faden am Handy */
+(()=>{const box=document.getElementById('huerden');if(!box)return;const karten=[...box.querySelectorAll('.huerde')];if(!karten.length)return;
+const blatt='<svg viewBox="0 0 64 64" aria-hidden="true"><path class="a" d="M31 58C14 52 6 34 10 8c17 8 25 26 21 50z" fill="#2F6B4F"/><path class="b" d="M33 58c2-17 9-27 23-31-1 16-9 27-23 31z" fill="#8DBF8F"/></svg>';
+const fd=document.createElement('div');fd.className='h-faden';fd.setAttribute('aria-hidden','true');
+fd.innerHTML='<div class="hf-linie"><i></i></div>'+karten.map((k,i)=>'<span class="hf-p">'+blatt+(i+1)+'</span>').join('');
+box.insertBefore(fd,box.firstChild);karten.slice(0,-1).forEach(k=>{const l=document.createElement('div');l.className='h-luecke';l.setAttribute('aria-hidden','true');k.after(l)});const pts=[...fd.querySelectorAll('.hf-p')];let t=false;
+const male=()=>{t=false;if(innerWidth>1020)return;const vh=innerHeight;let a=-1;karten.forEach((k,i)=>{if(k.getBoundingClientRect().top<vh*.62)a=i});
+const r=box.getBoundingClientRect();const pr=Math.max(0,Math.min(1,(vh*.62-r.top-fd.offsetHeight)/(r.height-fd.offsetHeight-karten[karten.length-1].offsetHeight*.6)));
+fd.style.setProperty('--hp',(a<0?0:Math.min(1,pr)).toFixed(3));pts.forEach((p,i)=>p.classList.toggle('an',i<=a));karten.forEach((k,i)=>k.classList.toggle('aktiv',i===Math.max(a,0)))};
 addEventListener('scroll',()=>{if(!t){t=true;requestAnimationFrame(male)}},{passive:true});addEventListener('resize',male);male();})();
 </script>
 </body>
