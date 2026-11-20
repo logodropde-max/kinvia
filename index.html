@@ -885,6 +885,24 @@ dialog[open]{animation:dlg .45s var(--k)}
 }
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.r,.hf{opacity:1;transform:none}.hero h1 .wd>span{transform:none}.pflanze .blatt{transform:none}}
 .sig-text{line-height:1.4}.sig-text b{color:#fff;font-weight:600}.sig-text i{display:block;font-style:normal;font-size:13px;opacity:.8}
+/* Hürden-Bühne: Abschnitt bleibt stehen, Karten 1 bis 4 wechseln beim Scrollen, danach geht es weiter */
+.h-zahl{display:none}
+#huerden.buehne-an{display:block!important;position:relative}
+#huerden.buehne-an .h-buehne{position:sticky;top:var(--bt,110px);display:flex;flex-direction:column;justify-content:center}
+#huerden.buehne-an .h-karten{display:grid}
+#huerden.buehne-an .h-karten .huerde{grid-area:1/1;position:relative!important;top:auto!important;margin:0!important;opacity:0!important;transform:translateY(40px) scale(.98)!important;transition:opacity .5s ease,transform .7s var(--k),border-color .4s!important;pointer-events:none;box-shadow:none}
+#huerden.buehne-an .h-karten .huerde.vorbei{transform:translateY(-40px) scale(.98)!important}
+#huerden.buehne-an .h-karten .huerde.aktiv{opacity:1!important;transform:none!important;pointer-events:auto;border-color:var(--leaf);box-shadow:0 30px 60px -36px rgba(31,59,48,.4)}
+#huerden.buehne-an .h-karten .huerde.ende.aktiv{border-color:var(--ink)}
+#huerden.buehne-an .h-faden,#huerden.buehne-an .h-luecke,#huerden.buehne-an .h-punkte{display:none!important}
+#huerden.buehne-an .h-karten .huerde{align-self:start}
+@media(max-width:1020px){
+  #warum .warum-zahl,#warum .warum-fort{display:none!important}
+  #huerden.buehne-an .h-zahl{display:flex;width:100%;justify-content:flex-start;align-items:baseline;gap:8px;margin:0 0 14px;font-size:14px;color:var(--muted)}
+  .h-zahl b{font-family:var(--serif);font-weight:500;font-size:22px;color:var(--ink)}
+  .h-zahl .hz-bar{flex:1;align-self:center;height:3px;margin-left:12px;border-radius:3px;background:var(--line);overflow:hidden}
+  .h-zahl .hz-bar i{display:block;height:100%;background:var(--green);transform-origin:left;transform:scaleX(0);transition:transform .2s linear}
+}
 </style>
 </head>
 <body class="intro-an">
@@ -940,12 +958,12 @@ dialog[open]{animation:dlg .45s var(--k)}
 <header class="top" id="kopf"><div class="wrap top-in">
   <a class="logo" href="#" aria-label="Kinvia – zur Startseite"><svg class="zeichen"><use href="#zeichen"/></svg><svg class="wort"><use href="#wort"/></svg></a>
   <nav class="links" aria-label="Hauptmenü"><a href="#warum">Warum Kinvia</a><a href="#bereiche">Einsatzbereiche</a><a href="#angebot">Fähigkeiten</a><a href="#datenschutz">Datenschutz</a><a href="#preise">Preise</a><a href="#faq">FAQ</a></nav>
-  <a class="btn sm" href="#kontakt">Kostenlos testen</a>
+  <a class="btn sm" href="#kontakt">Pilot anfragen</a>
   <button class="burger" id="burger" aria-label="Menü öffnen" aria-expanded="false"><span></span><span></span><span></span></button>
 </div></header>
 <nav class="mobil" id="mobil" aria-label="Mobiles Menü">
   <a class="m" href="#warum">Warum Kinvia</a><a class="m" href="#bereiche">Einsatzbereiche</a><a class="m" href="#angebot">Fähigkeiten</a><a class="m" href="#datenschutz">Datenschutz</a><a class="m" href="#preise">Preise</a><a class="m" href="#faq">FAQ</a>
-  <a class="btn" href="#kontakt">Kostenlos testen <span class="pf">→</span></a>
+  <a class="btn" href="#kontakt">Pilot anfragen <span class="pf">→</span></a>
 </nav>
 
 <main>
@@ -960,8 +978,8 @@ dialog[open]{animation:dlg .45s var(--k)}
   <span class="held-linie" aria-hidden="true"></span>
   <h1 id="titel"><span class="wd"><span>Mehr</span></span> <span class="wd"><span>Zeit</span></span> <span class="wd"><span>für</span></span> <span class="wd"><span>Menschen.</span></span> <span class="wd"><span><em class="hand">Weniger</em></span></span> <span class="wd"><span><em class="hand">Schreibtisch.</em></span></span></h1>
   <p class="sub hf" style="transition-delay:.55s">Für alle, die jeden Tag für Kinder, Familien und Menschen da sind. Kinvia übernimmt das Schreiben, damit wieder mehr Zeit für das bleibt, was wirklich zählt.</p>
-  <div class="row hf" style="transition-delay:.7s"><a class="btn" href="#kontakt">Kostenlos beraten lassen <span class="pf">→</span></a><a class="btn line" href="#bereiche">Für wen ist Kinvia?</a></div>
-  <p class="vertrauen hf" style="transition-delay:.85s"><span class="pilot-hero">7 Tage kostenlos testen, keine Kosten</span><span>Server in Deutschland</span><span>DSGVO-konform</span><br><span>Für Kitas, Jugendhilfe, Familienhilfe, Pflege und mehr</span></p>
+  <div class="row hf" style="transition-delay:.7s"><a class="btn" href="#kontakt">Pilot anfragen <span class="pf">→</span></a><a class="btn line" href="#bereiche">Für wen ist Kinvia?</a></div>
+  <p class="vertrauen hf" style="transition-delay:.85s"><span class="pilot-hero">Pilotphase ab Anfang 2027</span><span>Server in Deutschland</span><span>AV-Vertrag nach DSGVO</span><br><span>Für Kitas, Jugendhilfe, Familienhilfe, Pflege und mehr</span></p>
 </div></section>
 
 <!-- LAUFBAND -->
@@ -978,14 +996,14 @@ dialog[open]{animation:dlg .45s var(--k)}
     <div class="warum-zahl"><b id="warumnr">01</b> / 04</div>
   </div></div>
   <div class="huerden" id="huerden">
-    <article class="huerde"><span class="nr">01</span><small>Hürde</small><h3>Kinderdaten gehören nicht zu ChatGPT.</h3><p>Entwicklungsberichte und Beobachtungen sind besonders schützenswert. Viele Träger verbieten öffentliche KI-Dienste. Zu Recht.</p>
+    <article class="huerde"><span class="nr">01</span><small>Hürde</small><h3>Kinderdaten gehören nicht in öffentliche KI-Dienste.</h3><p>Entwicklungsberichte und Beobachtungen sind besonders schützenswert. Viele Träger verbieten öffentliche KI-Dienste. Zu Recht.</p>
       <div class="antwort"><i><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3 3 7-7"/></svg></i><div><b>Unsere Antwort</b><span>Eigene Technik auf Servern in Deutschland, verschlüsselt, ohne Weitergabe an US-Anbieter, mit Auftragsverarbeitungsvertrag nach DSGVO.</span></div></div></article>
     <article class="huerde"><span class="nr">02</span><small>Hürde</small><h3>Pädagogik braucht die richtige Haltung.</h3><p>Allgemeine Chat-Programme schreiben bewertend statt wertschätzend und kennen weder Bildungsbereiche noch ressourcenorientierte Sprache.</p>
-      <div class="antwort"><i><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3 3 7-7"/></svg></i><div><b>Unsere Antwort</b><span>Von unseren Erzieherinnen und Erziehern eingerichtet, auf Ihre Vorlagen abgestimmt und fachlich geprüft.</span></div></div></article>
+      <div class="antwort"><i><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3 3 7-7"/></svg></i><div><b>Unsere Antwort</b><span>Von einem Erzieher entwickelt und auf Ihre Vorlagen und Ihre Fachsprache abgestimmt.</span></div></div></article>
     <article class="huerde"><span class="nr">03</span><small>Hürde</small><h3>Keine IT-Abteilung, keine Zeit für Schulungen.</h3><p>Zwischen Gruppenalltag, Personalmangel und Elterngesprächen bleibt keine Zeit, sich in neue Programme einzuarbeiten.</p>
-      <div class="antwort"><i><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3 3 7-7"/></svg></i><div><b>Unsere Antwort</b><span>Ein Link genügt: sprechen, tippen oder fotografieren. In wenigen Minuten selbst eingerichtet.</span></div></div></article>
-    <article class="huerde ende"><span class="nr">04</span><h3>Deshalb haben wir nach einer Lösung gesucht.</h3><p>Als Erzieherinnen und Erzieher erleben wir selbst, wie viel Zeit Dokumentation frisst. Zeit, die bei den Kindern fehlt. Weil es keine passende Lösung gab, haben wir Kinvia ins Leben gerufen und gemeinsam mit unserem Team entwickelt: eine Lösung, die die Sprache und die Regeln der sozialen Arbeit versteht.</p>
-      <div class="sig"><span><svg viewBox="0 0 64 64" width="22" height="22"><use href="#zeichen-hell"/></svg></span><div class="sig-text"><b>Emre Ergun</b> · Gründer<i>mit dem Kinvia-Team aus pädagogischen Fachkräften und Entwicklern</i></div></div></article>
+      <div class="antwort"><i><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5l3 3 7-7"/></svg></i><div><b>Unsere Antwort</b><span>Ein Link genügt: sprechen, tippen oder fotografieren. Die Einrichtung übernehmen wir.</span></div></div></article>
+    <article class="huerde ende"><span class="nr">04</span><h3>Deshalb gibt es Kinvia.</h3><p>Als Erzieher erlebe ich selbst, wie viel Zeit Dokumentation frisst. Zeit, die bei den Kindern fehlt. Weil es keine passende Lösung gab, habe ich Kinvia entwickelt: eine Lösung, die die Sprache und die Regeln der sozialen Arbeit versteht.</p>
+      <div class="sig"><span><svg viewBox="0 0 64 64" width="22" height="22"><use href="#zeichen-hell"/></svg></span><div class="sig-text"><b>Emre Ergun</b> · Gründer<i>Erzieher aus der Praxis</i></div></div></article>
   </div>
 </div></section>
 
@@ -1054,11 +1072,11 @@ dialog[open]{animation:dlg .45s var(--k)}
 <!-- PREISE -->
 <section class="sec" id="preise"><div class="wrap">
   <div class="head c r"><span class="eyebrow">Preise</span><h2>Feste Preise. <em class="hand">Planbar.</em></h2><p class="sub">Alle Preise netto pro Einrichtung und Monat. Persönlicher Ansprechpartner immer inklusive.</p></div>
-  <div class="pilot-band r"><span class="pb-tag">Ohne Risiko</span><b>7 Tage kostenlos testen</b><span class="pb-txt">Paket Start mit Ihren eigenen Vorlagen. Keine Kosten, keine Zahlungsdaten, endet automatisch.</span><a class="btn sm" href="#kontakt">Jetzt starten</a></div>
+  <div class="pilot-band r"><span class="pb-tag">Pilotphase</span><b>Pilot-Einrichtung werden</b><span class="pb-txt">Start Anfang 2027. In der Pilotphase kostenlos, persönlich eingerichtet. Danach entscheiden Sie in Ruhe.</span><a class="btn sm" href="#kontakt">Pilot anfragen</a></div>
   <div class="plans">
     <div class="spot plan r">
       <h3>Start</h3><p class="for">Bis 15 Mitarbeitende</p>
-      <div class="price"><b>79 €</b><span>/ Monat</span></div><p class="pilotpreis"><b>7 Tage kostenlos</b> testen, mit Ihren Vorlagen</p><hr>
+      <div class="price"><b>79 €</b><span>/ Monat</span></div><p class="pilotpreis"><b>In der Pilotphase kostenlos</b>, mit Ihren Vorlagen</p><hr>
       <ul>
         <li><svg><use href="#ok"/></svg>Wissen der Einrichtung: Fragen zu Konzeption &amp; Abläufen</li>
         <li><svg><use href="#ok"/></svg>Berichte aus Sprache, Notizen oder Fotos</li>
@@ -1097,9 +1115,9 @@ dialog[open]{animation:dlg .45s var(--k)}
     </div>
   </div>
   <div class="terms">
-    <div class="term r"><div class="ico"><svg><use href="#i-start"/></svg></div><div><b>Einrichtung</b>selbst, kostenlos. Auf Wunsch persönlich: einmalig 190 €</div></div>
+    <div class="term r"><div class="ico"><svg><use href="#i-start"/></svg></div><div><b>Einrichtung</b>persönlich durch uns, einmalig 190 €</div></div>
     <div class="term r d1"><div class="ico"><svg><use href="#i-kal"/></svg></div><div><b>Laufzeit</b>3 Monate, dann monatlich kündbar</div></div>
-    <div class="term r d2"><div class="ico"><svg><use href="#i-uhr"/></svg></div><div><b>Testen</b>7 Tage kostenlos</div></div>
+    <div class="term r d2"><div class="ico"><svg><use href="#i-uhr"/></svg></div><div><b>Pilotphase</b>ab Anfang 2027, kostenlos</div></div>
     <div class="term r d3"><div class="ico"><svg><use href="#i-gebaeude"/></svg></div><div><b>Träger</b>ab 3 Häusern, ein Vertrag für alle</div></div>
   </div>
   <p style="font-size:13px;color:var(--muted);margin-top:14px">Alle Preise netto pro Einrichtung und Monat, zzgl. gesetzlicher USt., sofern anfallend.</p>
@@ -1112,8 +1130,8 @@ dialog[open]{animation:dlg .45s var(--k)}
     <div class="faq-item auf"><button class="faq-q" aria-expanded="true">Muss unser Team etwas installieren?<span class="pl"></span></button><div class="faq-a"><div><p>Nein. Ein sicherer Link im Browser genügt, auf Handy, Tablet oder PC. Wir richten alles für Sie ein.</p></div></div></div>
     <div class="faq-item"><button class="faq-q" aria-expanded="false">Bewertet Kinvia die Kinder?<span class="pl"></span></button><div class="faq-a"><div><p>Nein. Kinvia formuliert, übersetzt und strukturiert, was Ihre Fachkräfte beobachten. Jede Einschätzung und jede Entscheidung trifft immer Ihr Team.</p></div></div></div>
     <div class="faq-item"><button class="faq-q" aria-expanded="false">Ist das mit Träger und Datenschutz vereinbar?<span class="pl"></span></button><div class="faq-a"><div><p>Ja. Verarbeitet wird ausschließlich in Deutschland, verschlüsselt und ohne Weitergabe an US-amerikanische KI-Anbieter. Sie erhalten einen Auftragsverarbeitungsvertrag nach DSGVO und alle Informationen für Ihren Datenschutzbeauftragten.</p></div></div></div>
-    <div class="faq-item"><button class="faq-q" aria-expanded="false">Wie funktioniert der kostenlose Test?<span class="pl"></span></button><div class="faq-a"><div><p>Sie füllen unten das Formular aus und erhalten Ihren Zugang innerhalb von 24 Stunden per E-Mail. Dann testen Sie das Paket Start 7 Tage kostenlos, inklusive Ihrer eigenen Vorlagen. Es entstehen keine Kosten, Zahlungsdaten brauchen wir nicht. Die Einrichtung schaffen Sie selbst in wenigen Minuten. Der Test endet automatisch, Sie müssen nichts kündigen.</p></div></div></div>
-    <div class="faq-item"><button class="faq-q" aria-expanded="false">Wie schnell können wir starten?<span class="pl"></span></button><div class="faq-a"><div><p>Sofort. Sie richten Kinvia in wenigen Minuten selbst ein. Auf Wunsch übernehmen wir das persönlich für Sie.</p></div></div></div>
+    <div class="faq-item"><button class="faq-q" aria-expanded="false">Wie funktioniert die Pilotphase?<span class="pl"></span></button><div class="faq-a"><div><p>Kinvia startet Anfang 2027 mit wenigen Pilot-Einrichtungen. Sie füllen unten das Formular aus, wir melden uns persönlich und richten Kinvia mit Ihren Vorlagen ein. In der Pilotphase entstehen Ihnen keine Kosten. Danach entscheiden Sie in Ruhe, ob Sie weitermachen.</p></div></div></div>
+    <div class="faq-item"><button class="faq-q" aria-expanded="false">Wann können wir starten?<span class="pl"></span></button><div class="faq-a"><div><p>Die Pilotphase beginnt Anfang 2027. Wer sich jetzt meldet, bekommt einen der ersten Plätze. Die Einrichtung übernehmen wir persönlich.</p></div></div></div>
   </div>
 </div></section>
 
@@ -1121,15 +1139,15 @@ dialog[open]{animation:dlg .45s var(--k)}
 <section id="kontakt"><div class="wrap kontakt">
   <div class="k-info r">
     <svg class="deko" aria-hidden="true"><use href="#blatt"/></svg>
-    <span class="eyebrow" style="color:var(--leaf)">Ohne Risiko</span>
-    <h2>So testen Sie kostenlos.</h2>
-    <p>7 Tage kostenlos testen. Keine Kosten, keine Zahlungsdaten, kein Abo.</p>
+    <span class="eyebrow" style="color:var(--leaf)">Pilotphase</span>
+    <h2>Pilot-Einrichtung werden.</h2>
+    <p>Start Anfang 2027. In der Pilotphase kostenlos und unverbindlich.</p>
     <ul class="vorteile">
       <li><i>1</i><div><b>Formular ausfüllen</b><span>Name, Einrichtung und E-Mail genügen</span></div></li>
-      <li><i>2</i><div><b>Zugang per E-Mail</b><span>Innerhalb von 24 Stunden in Ihrem Postfach</span></div></li>
-      <li><i>3</i><div><b>7 Tage kostenlos testen</b><span>Paket Start mit Ihren Vorlagen. Danach entscheiden Sie in Ruhe.</span></div></li>
+      <li><i>2</i><div><b>Persönliche Rückmeldung</b><span>Wir melden uns innerhalb von 24 Stunden</span></div></li>
+      <li><i>3</i><div><b>Pilot mit Ihren Vorlagen</b><span>Persönlich eingerichtet. Danach entscheiden Sie in Ruhe.</span></div></li>
     </ul>
-    <p class="direkt">Lieber direkt schreiben? <a href="mailto:hallo@kinvia.de">hallo@kinvia.de</a></p>
+    <p class="direkt">Lieber direkt schreiben? <a href="mailto:hallo@kinvia-ki.de">hallo@kinvia-ki.de</a></p>
   </div>
 
   <form class="anfrage r d1" id="anfrage" novalidate>
@@ -1145,15 +1163,15 @@ dialog[open]{animation:dlg .45s var(--k)}
         <div class="fl voll"><label for="f-msg">Nachricht</label><textarea id="f-msg" name="nachricht" placeholder="Wobei wünschen Sie sich Entlastung? Zum Beispiel: Entwicklungsberichte, Elterngespräche auf Arabisch, unser Schutzkonzept …"></textarea></div>
         <div class="voll"><label class="zust"><input type="checkbox" id="f-ds" required><span>Ich bin einverstanden, dass meine Angaben zur Bearbeitung der Anfrage verwendet werden. Mehr in der <a href="#" data-dlg="dlg-ds">Datenschutzerklärung</a>. <em style="font-style:normal;color:var(--clay)">*</em></span></label><span class="msg" id="ds-msg" style="font-size:13px;color:var(--clay)"></span></div>
       </div>
-      <div class="f-fuss"><small>* Pflichtfelder · Keine Kosten · Zugang innerhalb von 24 Stunden</small><button class="btn" type="submit">7 Tage kostenlos testen <span class="pf">→</span></button></div>
+      <div class="f-fuss"><small>* Pflichtfelder · Unverbindlich · Öffnet Ihr E-Mail-Programm</small><button class="btn" type="submit">Pilot anfragen <span class="pf">→</span></button></div>
     </div>
     <div class="danke" role="status">
       <div class="wachs" aria-hidden="true">
         <svg class="danke-logo" viewBox="0 0 64 64"><path class="bl1" d="M31 58C14 52 6 34 10 8c17 8 25 26 21 50z" fill="#2F6B4F"/><path class="bl2" d="M33 58c2-17 9-27 23-31-1 16-9 27-23 31z" fill="#8DBF8F"/></svg>
         <span class="ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>
       </div>
-      <h3>Anfrage gesendet</h3>
-      <p id="danke-text">Vielen Dank! Ihren Zugang für den kostenlosen Test erhalten Sie innerhalb von 24 Stunden per E-Mail.</p>
+      <h3>Fast geschafft</h3>
+      <p id="danke-text">Ihr E-Mail-Programm hat sich mit Ihrer Anfrage geöffnet. Bitte senden Sie die Nachricht dort ab. Wir melden uns innerhalb von 24 Stunden.</p>
       <button class="btn line" type="button" id="neu">Neue Anfrage</button>
     </div>
   </form>
@@ -1165,8 +1183,8 @@ dialog[open]{animation:dlg .45s var(--k)}
   <div class="wrap fuss">
     <a class="logo" href="#"><svg class="zeichen"><use href="#zeichen-hell"/></svg><svg class="wort"><use href="#wort"/></svg></a>
     <p class="fuss-satz">Mehr Zeit für Menschen. Weniger Schreibtisch.</p>
-    <nav class="fuss-links" aria-label="Fußbereich"><a href="#preise">Preise</a><a href="#faq">FAQ</a><a href="#kontakt">Kostenlos testen</a><button class="lk" data-dlg="dlg-imp">Impressum</button><button class="lk" data-dlg="dlg-ds">Datenschutz</button></nav>
-    <div class="copy"><span>© <span id="jahr">2026</span> Kinvia</span><a href="mailto:hallo@kinvia.de">hallo@kinvia.de</a></div>
+    <nav class="fuss-links" aria-label="Fußbereich"><a href="#preise">Preise</a><a href="#faq">FAQ</a><a href="#kontakt">Pilot anfragen</a><button class="lk" data-dlg="dlg-imp">Impressum</button><button class="lk" data-dlg="dlg-ds">Datenschutz</button></nav>
+    <div class="copy"><span>© <span id="jahr">2026</span> Kinvia</span><a href="mailto:hallo@kinvia-ki.de">hallo@kinvia-ki.de</a></div>
   </div>
 </footer>
 
@@ -1180,7 +1198,7 @@ dialog[open]{animation:dlg .45s var(--k)}
     <h4>Angaben gemäß § 5 DDG</h4>
     <p>Kinvia<br>Emre Ergun<br>Heidmühlenweg 101<br>25336 Elmshorn</p>
     <h4>Kontakt</h4>
-    <p>E-Mail: hallo@kinvia.de<br>Telefon: [wird ergänzt]</p>
+    <p>E-Mail: hallo@kinvia-ki.de<br>Telefon: [wird ergänzt]</p>
     <h4>Umsatzsteuer</h4>
     <p>[USt-IdNr. oder Hinweis nach § 19 UStG, wird ergänzt]</p>
     <h4>Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV</h4>
@@ -1196,7 +1214,7 @@ dialog[open]{animation:dlg .45s var(--k)}
   <div class="dlg-inhalt">
     <p class="notiz">Mustertext. Vor dem Livegang an den echten Hoster und Ablauf anpassen und rechtlich prüfen lassen.</p>
     <h4>1. Verantwortlicher</h4>
-    <p>Emre Ergun, Kinvia, Heidmühlenweg 101, 25336 Elmshorn, hallo@kinvia.de</p>
+    <p>Emre Ergun, Kinvia, Heidmühlenweg 101, 25336 Elmshorn, hallo@kinvia-ki.de</p>
     <h4>2. Aufruf der Website</h4>
     <p>Beim Besuch dieser Website verarbeitet unser Hosting-Anbieter technisch notwendige Daten (z. B. IP-Adresse, Zeitpunkt, Browser) in Server-Logfiles. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO (sicherer Betrieb der Website). Die Logfiles werden nach kurzer Zeit gelöscht.</p>
     <h4>3. Keine Cookies, kein Tracking</h4>
@@ -1316,7 +1334,8 @@ form.addEventListener('submit',e=>{
   const ds=$('#f-ds').checked;$('#ds-msg').textContent=ds?'':'Bitte stimmen Sie der Verarbeitung Ihrer Angaben zu.';
   if(!(a&&b&&c&&ds)){(form.querySelector('.fehler input')||$('#f-ds')).focus();return}
   const fd=new FormData(form);
-  const zeilen=['Test-Anfrage über kinvia.de','','Name: '+fd.get('name'),'E-Mail: '+fd.get('email'),'Einrichtung: '+fd.get('einrichtung'),'Telefon: '+(fd.get('telefon')||'–'),'Art: '+fd.get('art'),'Teamgröße: '+fd.get('groesse'),'Paket: '+fd.get('paket'),'','Nachricht:',fd.get('nachricht')||'–'];
+  const zeilen=['Pilot-Anfrage über die Kinvia-Website','','Name: '+fd.get('name'),'E-Mail: '+fd.get('email'),'Einrichtung: '+fd.get('einrichtung'),'Telefon: '+(fd.get('telefon')||'–'),'Art: '+fd.get('art'),'Teamgröße: '+fd.get('groesse'),'Paket: '+fd.get('paket'),'','Nachricht:',fd.get('nachricht')||'–'];
+  location.href='mailto:hallo@kinvia-ki.de?subject='+encodeURIComponent('Pilot-Anfrage: '+fd.get('einrichtung'))+'&body='+encodeURIComponent(zeilen.join('\n'));
   form.classList.add('gesendet');form.scrollIntoView({behavior:ruhig?'auto':'smooth',block:'center'});
 });
 ['#f-name','#f-mail','#f-einr'].forEach(id=>$(id).addEventListener('input',()=>{const fl=$(id).closest('.fl');if(fl.classList.contains('fehler')){fl.classList.remove('fehler');fl.querySelector('.msg').textContent=''}}));
@@ -1342,7 +1361,7 @@ function takt(){tick=false;const y=scrollY;
   kopf.classList.toggle('scrolled',y>10);fs.style.transform='scaleX('+(docH>0?Math.min(y/docH,1):0)+')';hoch.classList.toggle('da',y>900);
   let akt=-1;secY.forEach((sy,i)=>{if(sy-vh*.4<y)akt=i});navLinks.forEach((a,i)=>a.classList.toggle('aktiv',i===akt));
   if(!ruhig&&innerWidth>600)parEls.forEach(p=>{const d=(y+vh/2)-p.y;if(Math.abs(d)<vh*1.5)p.el.style.transform='translate3d(0,'+(d*p.f).toFixed(1)+'px,0)'});
-  if(hbox&&huerden.length&&innerWidth>1020){const mitte=y+vh*.5;let a=0;hTops.forEach((t,i)=>{if(t<mitte)a=i});huerden.forEach((h,i)=>h.classList.toggle('aktiv',i===a));
+  if(hbox&&huerden.length&&innerWidth>1020&&!hbox.classList.contains('buehne-an')){const mitte=y+vh*.5;let a=0;hTops.forEach((t,i)=>{if(t<mitte)a=i});huerden.forEach((h,i)=>h.classList.toggle('aktiv',i===a));
     const pr=Math.max(0,Math.min(1,(mitte-hY)/hH));if(wbar)wbar.style.transform='scaleX('+pr+')';if(wnr)wnr.textContent=String(a+1).padStart(2,'0')}
   if(ls){const pr=Math.max(0,Math.min(1,(y+vh*.78-lsY)/(lsH+vh*.3)));const n=Math.round(pr*lsWorte.length);if(n!==lsZahl){lsZahl=n;lsWorte.forEach((w,i)=>w.classList.toggle('an',i<n))}}
 }
@@ -1407,7 +1426,7 @@ zs.classList.toggle('l1',s1>0.55);zs.classList.toggle('l2',s2>0.55)};
 addEventListener('scroll',()=>{if(!t){t=true;requestAnimationFrame(male)}},{passive:true});addEventListener('resize',male);male();})();
 
 /* Ranken zwischen den Themen einsetzen und ans Scrollen koppeln */
-(()=>{const ids=['bereiche','ablauf','preise'];
+(()=>{const ids=['bereiche','angebot','ablauf','preise'];
 const svg='<svg viewBox="0 0 64 110" aria-hidden="true"><path class="t-stiel" pathLength="1" d="M32 4 C 20 26 44 44 32 64 S 30 92 32 104"/><path class="t-bl l t1" d="M31 40 c-4 -9 -13 -13 -21 -12 c3 9 12 14 21 12z" fill="#8DBF8F"/><path class="t-bl r t2" d="M33 70 c4 -9 13 -13 21 -12 c-3 9 -12 14 -21 12z" fill="#8DBF8F"/><g class="t-bl t3"><path d="M31 106 C24 104 21 97 22 88 c7 3 10 10 9 18z" fill="#2F6B4F"/><path d="M33 106 c1-7 4-11 10-13 0 7-4 11-10 13z" fill="#8DBF8F"/></g></svg>';
 const tr=[];ids.forEach(id=>{const sec=document.getElementById(id);if(!sec)return;const d=document.createElement('div');d.className='trenner t-'+id;d.setAttribute('aria-hidden','true');d.innerHTML=svg;sec.parentNode.insertBefore(d,sec);tr.push(d)});
 const cl=v=>Math.max(0,Math.min(1,v));let t=false;
@@ -1415,7 +1434,7 @@ const male=()=>{t=false;const vh=innerHeight;tr.forEach(d=>{const r=d.getBoundin
 addEventListener('scroll',()=>{if(!t){t=true;requestAnimationFrame(male)}},{passive:true});addEventListener('resize',male);male();})();
 
 /* Hürden am Handy: Karten laufen durch, unten 4 Punkte */
-(()=>{const box=document.getElementById('huerden');if(!box)return;const karten=[...box.querySelectorAll('.huerde')];if(!karten.length)return;
+(()=>{return;const box=document.getElementById('huerden');if(!box)return;const karten=[...box.querySelectorAll('.huerde')];if(!karten.length)return;
 const blatt='<svg viewBox="0 0 64 64" aria-hidden="true"><path class="a" d="M31 58C14 52 6 34 10 8c17 8 25 26 21 50z" fill="#2F6B4F"/><path class="b" d="M33 58c2-17 9-27 23-31-1 16-9 27-23 31z" fill="#8DBF8F"/></svg>';
 const fd=document.createElement('div');fd.className='h-faden';fd.setAttribute('aria-hidden','true');
 fd.innerHTML=karten.map(()=>'<i></i>').join('');
@@ -1443,6 +1462,26 @@ box.appendChild(b);box.classList.add('buehne-an');box.style.setProperty('--hk',k
 const male=()=>{t=false;const r=box.getBoundingClientRect(),weg=Math.max(1,r.height-b.offsetHeight);const p=Math.max(0,Math.min(.999,(84-r.top)/weg));const a=Math.floor(p*karten.length);
 if(a===last)return;last=a;karten.forEach((k,i)=>{k.classList.toggle('aktiv',i===a);k.classList.toggle('vorbei',i<a)});pt.forEach((x,i)=>x.classList.toggle('an',i===a))};
 addEventListener('scroll',()=>{if(!t){t=true;requestAnimationFrame(male)}},{passive:true});addEventListener('resize',male);male();})();
+/* Hürden-Bühne: Abschnitt bleibt stehen, Karte 1 geht, Karte 2 kommt … bis 4, dann scrollt die Seite weiter */
+(()=>{if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+const box=document.getElementById('huerden');if(!box)return;const karten=[...box.querySelectorAll('.huerde')];const n=karten.length;if(n<2)return;
+const kopf=document.getElementById('kopf'),wnr=document.getElementById('warumnr'),wbar=document.getElementById('warumbar');
+const bu=document.createElement('div');bu.className='h-buehne';
+const zahl=document.createElement('div');zahl.className='h-zahl';zahl.setAttribute('aria-hidden','true');zahl.innerHTML='<b>01</b> / '+String(n).padStart(2,'0')+'<span class="hz-bar"><i></i></span>';
+const kw=document.createElement('div');kw.className='h-karten';karten.forEach(k=>{k.classList.add('in');kw.appendChild(k)});
+bu.appendChild(zahl);bu.appendChild(kw);box.appendChild(bu);box.classList.add('buehne-an');
+const zb=zahl.querySelector('b'),zi=zahl.querySelector('i');let bh=0,oben=0,last=-1,t=false;
+function mess(){const vh=innerHeight,kh=kopf?kopf.offsetHeight:70;kw.style.minHeight='';bh=bu.offsetHeight;
+  oben=Math.max(kh+16,Math.round((vh-bh)/2+kh/2));box.style.setProperty('--bt',oben+'px');
+  box.style.height=Math.round(bh+(n-1)*vh*.6)+'px';last=-1;male()}
+function male(){t=false;const r=box.getBoundingClientRect(),weg=Math.max(1,box.offsetHeight-bh);
+  const p=Math.max(0,Math.min(1,(oben-r.top)/weg));const a=Math.min(n-1,Math.floor(p*n));
+  zi.style.transform='scaleX('+p.toFixed(3)+')';if(wbar)wbar.style.transform='scaleX('+p.toFixed(3)+')';
+  if(a===last)return;last=a;karten.forEach((k,i)=>{k.classList.toggle('aktiv',i===a);k.classList.toggle('vorbei',i<a)});
+  const nr=String(a+1).padStart(2,'0');zb.textContent=nr;if(wnr)wnr.textContent=nr}
+addEventListener('scroll',()=>{if(!t){t=true;requestAnimationFrame(male)}},{passive:true});
+addEventListener('resize',()=>{clearTimeout(window.__hb);window.__hb=setTimeout(mess,150)});
+addEventListener('load',mess);mess();setTimeout(mess,800);})();
 </script>
 </body>
 </html>
