@@ -554,6 +554,41 @@ footer{margin-top:80px;padding:44px 0 22px}
 .fuss .copy{margin-top:12px;padding-top:14px;font-size:12.5px}
 footer .gross-wort{width:min(560px,72vw);bottom:-3vw;color:rgba(255,255,255,.045)}
 @media(max-width:600px){footer{margin-top:60px;padding:36px 0 20px}footer .gross-wort{width:78vw;bottom:-2vw}}
+/* Seitenranke entfernt: ruhiger. Die Ranken zwischen den Themen tragen das Motiv */
+.ranke{display:none!important}
+@media(max-width:700px){.wrap{width:min(1180px,100% - 40px);margin-left:auto;margin-right:auto}}
+.trenner{width:80px;height:130px;margin:-65px auto}
+.trenner .t-stiel{stroke-width:2.4;stroke:#8DBF8F}
+/* Hürden am Handy wie am PC: Karten scrollen, aktive Karte leuchtet, oben Fortschritt 01/04 */
+@media(max-width:1020px){
+  .h-faden{display:flex!important;position:sticky;top:70px;z-index:5;align-items:center;gap:16px;padding:14px 4px;margin:0 0 10px;background:rgba(246,243,236,.95);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border-radius:0}
+  .hf-bar{flex:1;height:3px;border-radius:3px;background:var(--line);overflow:hidden}
+  .hf-bar i{display:block;height:100%;background:var(--green);transform-origin:left;transform:scaleX(0);transition:transform .2s linear}
+  .hf-zahl{font:italic 500 15px var(--serif);color:var(--muted)}.hf-zahl b{font-size:22px;color:var(--ink);font-weight:500}
+  #huerden{display:grid!important;gap:18px}
+  .warum-zahl{display:none}
+  #huerden .h-luecke{display:none!important}
+  #huerden .huerde{position:relative!important;top:auto!important;box-shadow:none;opacity:.45!important;transform:scale(.97)!important;transition:opacity .6s var(--k),transform .6s var(--k),border-color .4s,box-shadow .6s}
+  #huerden .huerde.aktiv{opacity:1!important;transform:none!important;border-color:var(--leaf);box-shadow:0 30px 60px -36px rgba(31,59,48,.4)}
+  #huerden .huerde.ende{opacity:.6!important}#huerden .huerde.ende.aktiv{opacity:1!important}
+}
+/* Kleine Pflanze am Rand: bei jedem neuen Thema ein Blatt mehr */
+.mini-pflanze{position:fixed;left:14px;bottom:16px;width:46px;height:112px;z-index:40;pointer-events:none;opacity:0;transform:translateY(10px);transition:opacity .6s,transform .6s var(--k)}
+.mini-pflanze.da{opacity:1;transform:none}
+.mini-pflanze svg{width:100%;height:100%;overflow:visible}
+.mp-stiel{fill:none;stroke:#2F6B4F;stroke-width:2.2;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset .8s var(--k)}
+.mp-bl{transform-box:fill-box;transform:scale(0);transition:transform .7s var(--k2)}
+.mp-bl.l{transform-origin:100% 100%}.mp-bl.r{transform-origin:0% 100%}
+.mp-bl.an{transform:scale(1)}
+.mp-erde{fill:rgba(141,191,143,.28)}
+@media(max-width:600px){.mini-pflanze{left:8px;bottom:12px;width:36px;height:88px}}
+@media(prefers-reduced-motion:reduce){.mini-pflanze *{transition:none!important}}
+/* Feinschliff: zartere Ranken, kleine Pflanze dezenter, Preis-Band am Handy ohne Lücke */
+.trenner{width:52px;height:88px;margin:-44px auto;opacity:.85}
+.trenner .t-stiel{stroke-width:1.6}
+.mp-stiel{stroke-width:2.6}
+@media(max-width:600px){.mini-pflanze{left:4px;bottom:14px;width:26px;height:66px;opacity:.9}}
+@media(max-width:640px){.pilot-band .pb-txt{flex:none}.pilot-band{gap:8px}}
 /* Paragraphen Datenschutz */
 .paragraphen{margin-top:18px;font-size:13.5px;line-height:1.7;color:#A9BDB2;max-width:62ch}
 .paragraphen b{color:#fff;font-weight:600}
@@ -1345,7 +1380,7 @@ zs.classList.toggle('l1',s1>0.55);zs.classList.toggle('l2',s2>0.55)};
 addEventListener('scroll',()=>{if(!t){t=true;requestAnimationFrame(male)}},{passive:true});addEventListener('resize',male);male();})();
 
 /* Ranken zwischen den Themen einsetzen und ans Scrollen koppeln */
-(()=>{const ids=['bereiche','angebot','ablauf','preise','faq','kontakt'];
+(()=>{const ids=['angebot','preise','kontakt'];
 const svg='<svg viewBox="0 0 64 110" aria-hidden="true"><path class="t-stiel" pathLength="1" d="M32 4 C 20 26 44 44 32 64 S 30 92 32 104"/><path class="t-bl l t1" d="M31 40 c-4 -9 -13 -13 -21 -12 c3 9 12 14 21 12z" fill="#8DBF8F"/><path class="t-bl r t2" d="M33 70 c4 -9 13 -13 21 -12 c-3 9 -12 14 -21 12z" fill="#8DBF8F"/><g class="t-bl t3"><path d="M31 106 C24 104 21 97 22 88 c7 3 10 10 9 18z" fill="#2F6B4F"/><path d="M33 106 c1-7 4-11 10-13 0 7-4 11-10 13z" fill="#8DBF8F"/></g></svg>';
 const tr=[];ids.forEach(id=>{const sec=document.getElementById(id);if(!sec)return;const d=document.createElement('div');d.className='trenner';d.setAttribute('aria-hidden','true');d.innerHTML=svg;sec.parentNode.insertBefore(d,sec);tr.push(d)});
 const cl=v=>Math.max(0,Math.min(1,v));let t=false;
@@ -1356,11 +1391,21 @@ addEventListener('scroll',()=>{if(!t){t=true;requestAnimationFrame(male)}},{pass
 (()=>{const box=document.getElementById('huerden');if(!box)return;const karten=[...box.querySelectorAll('.huerde')];if(!karten.length)return;
 const blatt='<svg viewBox="0 0 64 64" aria-hidden="true"><path class="a" d="M31 58C14 52 6 34 10 8c17 8 25 26 21 50z" fill="#2F6B4F"/><path class="b" d="M33 58c2-17 9-27 23-31-1 16-9 27-23 31z" fill="#8DBF8F"/></svg>';
 const fd=document.createElement('div');fd.className='h-faden';fd.setAttribute('aria-hidden','true');
-fd.innerHTML='<div class="hf-linie"><i></i></div>'+karten.map((k,i)=>'<span class="hf-p">'+blatt+(i+1)+'</span>').join('');
-box.insertBefore(fd,box.firstChild);karten.slice(0,-1).forEach(k=>{const l=document.createElement('div');l.className='h-luecke';l.setAttribute('aria-hidden','true');k.after(l)});const pts=[...fd.querySelectorAll('.hf-p')];let t=false;
-const male=()=>{t=false;if(innerWidth>1020)return;const vh=innerHeight;let a=-1;karten.forEach((k,i)=>{if(k.getBoundingClientRect().top<vh*.62)a=i});
-const r=box.getBoundingClientRect();const pr=Math.max(0,Math.min(1,(vh*.62-r.top-fd.offsetHeight)/(r.height-fd.offsetHeight-karten[karten.length-1].offsetHeight*.6)));
-fd.style.setProperty('--hp',(a<0?0:Math.min(1,pr)).toFixed(3));pts.forEach((p,i)=>p.classList.toggle('an',i<=a));karten.forEach((k,i)=>k.classList.toggle('aktiv',i===Math.max(a,0)))};
+fd.innerHTML='<div class="hf-bar"><i></i></div><span class="hf-zahl"><b>01</b> / 0'+karten.length+'</span>';
+box.insertBefore(fd,box.firstChild);const fbar=fd.querySelector('.hf-bar i'),fz=fd.querySelector('.hf-zahl b');let t=false;
+const male=()=>{t=false;if(innerWidth>1020)return;const vh=innerHeight;let a=0;karten.forEach((k,i)=>{if(k.getBoundingClientRect().top<vh*.5)a=i});
+const r=box.getBoundingClientRect();const pr=Math.max(0,Math.min(1,(vh*.5-r.top)/r.height));
+fbar.style.transform='scaleX('+pr.toFixed(3)+')';fz.textContent=String(a+1).padStart(2,'0');karten.forEach((k,i)=>k.classList.toggle('aktiv',i===a))};
+addEventListener('scroll',()=>{if(!t){t=true;requestAnimationFrame(male)}},{passive:true});addEventListener('resize',male);male();})();
+
+/* Kleine Pflanze am Rand, die mit jedem Thema wächst */
+(()=>{const ids=['warum','bereiche','angebot','ablauf','datenschutz','preise','faq','kontakt'].map(i=>document.getElementById(i)).filter(Boolean);if(!ids.length)return;
+const n=ids.length;let bl='';for(let i=0;i<n;i++){const y=104-i*11.5,l=i%2===0;bl+=l?'<path class="mp-bl l" d="M23 '+y+' c-3 -7 -10 -10 -16 -9 c2 7 9 11 16 9z" fill="'+(i%3?'#8DBF8F':'#2F6B4F')+'"/>':'<path class="mp-bl r" d="M23 '+y+' c3 -7 10 -10 16 -9 c-2 7 -9 11 -16 9z" fill="'+(i%3?'#8DBF8F':'#2F6B4F')+'"/>'}
+const w=document.createElement('div');w.className='mini-pflanze';w.setAttribute('aria-hidden','true');
+w.innerHTML='<svg viewBox="0 0 46 112"><ellipse class="mp-erde" cx="23" cy="110" rx="14" ry="3"/><path class="mp-stiel" pathLength="1" d="M23 110 C 21 90 25 70 23 50 S 21 20 23 6"/>'+bl+'</svg>';document.body.appendChild(w);
+const st=w.querySelector('.mp-stiel'),bls=[...w.querySelectorAll('.mp-bl')];let t=false,last=-1;
+const male=()=>{t=false;const vh=innerHeight;let k=0;ids.forEach(sec=>{if(sec.getBoundingClientRect().top<vh*.55)k++});
+w.classList.toggle('da',k>0);if(k===last)return;last=k;st.style.strokeDashoffset=(1-Math.min(1,(k+0.4)/(n+0.4))).toFixed(3);bls.forEach((b,i)=>b.classList.toggle('an',i<k))};
 addEventListener('scroll',()=>{if(!t){t=true;requestAnimationFrame(male)}},{passive:true});addEventListener('resize',male);male();})();
 </script>
 </body>
